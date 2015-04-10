@@ -1,0 +1,19 @@
+<h2>Contents</h2>
+<ul id="docs-menu">
+	<li><a href="http://instantcocoa.io/docs">Overview</a></li>
+    {% for nav_item in nav %}
+		{% for child in nav_item.children if child.title == "Home" %}
+	        <li><a href="{{child.url}}">{{ nav_item.title.title() }}</a></li>
+		{% else %}
+	        <li>{{ nav_item.title.title() }}</li>
+		{% endfor %}
+		<ul>
+        {% for child in nav_item.children if child.title != "Home" %}
+            <li class="toctree-l2 {% if child.active%}current{%endif%}">
+                <a class="{% if child.active%}current{%endif%}" href="{{ child.url }}">{{ child.title.title() }}</a>
+			</li>
+        {% endfor %}
+		</ul>
+    {% endfor %}
+</ul>
+

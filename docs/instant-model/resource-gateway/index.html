@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+		<script src="//use.typekit.net/sec7fxd.js"></script>
+		<script>try{Typekit.load();}catch(e){}</script>
+    	
+	    <script>
+	      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	      ga('create', 'UA-61265657-1', 'auto');
+	      ga('send', 'pageview');
+
+	    </script>
+	    <link href="../../styles.css" rel="stylesheet">
+		<title>Resource Gateway - Instant Cocoa</title>
+	</head>
+	<body class="docs">
+		<div id="container">
+			<div id="header">
+				<div id="header-inner">
+					<a href="/">
+						<img id="ic-logo" src="/images/logo-ic-small.png">
+						<h1>Instant Cocoa</h1>
+					</a>
+				</div>
+			</div>
+			<div id="content" class="clearfix">
+			<div id="docs-menu">
+				<h2>Contents</h2>
+<ul id="docs-menu">
+	<li><a href="http://instantcocoa.io/docs">Overview</a></li>
+    
+		
+	        <li>Core</li>
+		
+		<ul>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../../core/inflector">Inflector</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../../core/router">Router</a>
+			</li>
+        
+		</ul>
+    
+		
+	        <li><a href="..">Instant Model</a></li>
+		
+		<ul>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../collection-fetcher">Collection Fetcher</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../mapping">Mapping</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../protocols">Protocols</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../reflection">Reflection</a>
+			</li>
+        
+            <li class="toctree-l2 current">
+                <a class="current" href=".">Resource Gateway</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../serializers">Serializers</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../value-objects">Value Objects</a>
+			</li>
+        
+		</ul>
+    
+</ul>
+
+			</div>
+			<div id="docs-content">
+				<h2 id="resource-gateway">Resource Gateway</h2>
+<p>Model objects live locally as well as remotely. Instant Cocoa has affordances for manipulating objects remotely.</p>
+<p>The REST-based resource model corresponds to the entity model quite well, so each <code>ICModel</code> instance has a <strong>resource gateway</strong>. This terminology is borrowed from Martin Fowler's Patterns of Enterprise Application Archicture.</p>
+<p>Each class and instance has a resource gateway, represented by the class <code>ICResourceGateway</code>. Resource gateways are lazily loaded by ICModel, so to create one, just call <code>-resourceGateway</code>. You can then use it that gateway to perform REST "actions" on your remote objects. For example, if you had a user object, and you wanted to current user to follow them, you could invoke:</p>
+<pre><code>[someUser.resourceGateway performAction:@"follow" successBlock:nil failureBlock:nil];
+</code></pre>
+<p>This corresponds to the REST endpoint <code>users/1234/follow</code>.</p>
+<h3 id="http-verbs">HTTP Verbs</h3>
+<p>Passing in an HTTP verb will perform that verb. For example, if you wanted to destroy the remote object, you could invoke:</p>
+<pre><code>[someUser.resourceGateway performAction:@"DELETE" successBlock:nil failureBlock:nil];
+</code></pre>
+<p>There are shorthands for all these methods. The category <code>ICModel+Remote</code> contains convenience methods for the default verbs.</p>
+<p>There are a few ways to customize <code>ICResourceGateway</code>:</p>
+<h4 id="updateobjectoncompletion"><code>updateObjectOnCompletion</code></h4>
+<pre><code>@property (nonatomic, assign) BOOL updateObjectOnCompletion;
+</code></pre>
+<p>If the model object should update itself after successful completion with the response from the server, set this to <code>YES</code>. It defaults to <code>YES</code>.</p>
+<h4 id="httpverbforcustomactions"><code>HTTPVerbForCustomActions</code></h4>
+<pre><code>@property (nonatomic, strong) HTTPVerb *HTTPVerbForCustomActions;
+</code></pre>
+<p>If an action isn't an HTTP verb (such as the <code>follow</code> example from above), <code>ICResourceGateway</code> defaults to using <code>HTTPVerbPUT</code>. This property allows you to customize the verb.</p>
+<h4 id="remotekeypath"><code>remoteKeypath</code></h4>
+<pre><code>@property (nonatomic, strong) NSString *remoteKeypath;
+</code></pre>
+<p>This defaults to the value from model (assuming it conforms to <code>ICRemoteObject</code>), but it can be overridden in specific cases.</p>
+<h3 id="injection">Injection</h3>
+<p>It currently doesn't have a protocol (as a means of hooking in customized objects), but this is an addition that would be welcomed.</p>
+
+			</div>
+		</div>
+		<div id="footer">
+			<div id="footer-inner">
+				<a href="/">Instant Cocoa</a> &middot; MIT Licensed &middot; by Soroush Khanlou
+			</div>
+		</div>
+	</body>
+</html>

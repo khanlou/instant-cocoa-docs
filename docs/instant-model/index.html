@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+		<script src="//use.typekit.net/sec7fxd.js"></script>
+		<script>try{Typekit.load();}catch(e){}</script>
+    	
+	    <script>
+	      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	      ga('create', 'UA-61265657-1', 'auto');
+	      ga('send', 'pageview');
+
+	    </script>
+	    <link href="../styles.css" rel="stylesheet">
+		<title>Home - Instant Cocoa</title>
+	</head>
+	<body class="docs">
+		<div id="container">
+			<div id="header">
+				<div id="header-inner">
+					<a href="/">
+						<img id="ic-logo" src="/images/logo-ic-small.png">
+						<h1>Instant Cocoa</h1>
+					</a>
+				</div>
+			</div>
+			<div id="content" class="clearfix">
+			<div id="docs-menu">
+				<h2>Contents</h2>
+<ul id="docs-menu">
+	<li><a href="http://instantcocoa.io/docs">Overview</a></li>
+    
+		
+	        <li>Core</li>
+		
+		<ul>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../core/inflector">Inflector</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../core/router">Router</a>
+			</li>
+        
+		</ul>
+    
+		
+	        <li><a href=".">Instant Model</a></li>
+		
+		<ul>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="collection-fetcher">Collection Fetcher</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="mapping">Mapping</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="protocols">Protocols</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="reflection">Reflection</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="resource-gateway">Resource Gateway</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="serializers">Serializers</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="value-objects">Value Objects</a>
+			</li>
+        
+		</ul>
+    
+</ul>
+
+			</div>
+			<div id="docs-content">
+				<h2 id="instant-model">Instant Model</h2>
+<p>Instant Model provides a rich model layer for your app. It handles reflection, JSON mapping, networking, <code>NSCoding</code> serialization, and value objects.</p>
+<h3 id="protocols">Protocols</h3>
+<p>The <a href="../instant-model/protocols/">Instant Model protocols</a> provide flexibility when working with Instant Model. The <code>ICModel</code> class provides an implementation for most of them, but your own model class can conform to them as well, so you are not required to subclass <code>ICModel</code> to make your entities. If an interface that takes one of these protocols does not work (with a non-<code>ICModel</code> object), we consider that a bug.</p>
+<h3 id="reflection">Reflection</h3>
+<p><a href="../instant-model/reflection/">Reflection</a> in Instant Cocoa is handled by two classes, <code>ICModelInspector</code> and <code>ICPropertyAttributes</code>. These are currently designed for use in the model layer, but in the future, they may be used in other layers, including the view layer. These classes can be used by your own model object to provide simple reflection.</p>
+<h3 id="json-mapping">JSON Mapping</h3>
+<p><a href="../instant-model/mapping/">JSON Mapping</a> is a core part of Instant Model. Mappings are provided by the <code>+JSONMapping</code> class method, and objects are mapped to and from JSON with the <code>ICJSONMapper</code> class. This class is complex and hard to understand, so it may change in the near future, possibly being broken out into multiple classes. The model protocols should be considered stable.</p>
+<h4 id="collection-mapping">Collection Mapping</h4>
+<p>Collections, such as <code>NSArrays</code>, <code>NSSets</code>, and <code>NSOrderedSets</code> can contain object types that are mappable.</p>
+<h4 id="serializers">Serializers</h4>
+<p>Foundation (and foundational) types, such as <code>NSDate</code>, <code>NSURL</code>, and <code>UIColor</code>, can be automatically mapped using <a href="../instant-model/serializers">Serializers</a>. Because of their implicit nature, their future is somewhat shakey, and their interface may change.</p>
+<h3 id="value-objects">Value Objects</h3>
+<p>Instant Cocoa supports <a href="../instant-model/value-objects">value types</a> as well as entity types. Value types are initialized and backed with an <code>NSString</code> or an <code>NSNumber</code>, and provide a richer domain layer for apps.</p>
+<h3 id="remote-access">Remote Access</h3>
+<p>Instant Model provides <a href="../instant-model/resource-gateway/">REST-based access to remote objects</a>, including performing verbs on them through <code>ICResourceGateway</code>.</p>
+<h3 id="collection-fetcher">Collection Fetcher</h3>
+<p><a href="../instant-model/collection-fetcher">REST-based collections can also be fetched and mapped</a> with <code>ICCollectionFetcher</code>. This provides the core of <code>ICRemoteDataSource</code>.</p>
+
+			</div>
+		</div>
+		<div id="footer">
+			<div id="footer-inner">
+				<a href="/">Instant Cocoa</a> &middot; MIT Licensed &middot; by Soroush Khanlou
+			</div>
+		</div>
+	</body>
+</html>

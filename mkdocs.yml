@@ -1,0 +1,6 @@
+site_name: Instant Cocoa
+docs_dir: 'documentation'
+site_dir: 'docs'
+theme_dir: 'instant_cocoa_theme'
+extra_css: ['styles.css']
+site_url: 'instantcocoa.io'

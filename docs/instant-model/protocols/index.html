@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+		<script src="//use.typekit.net/sec7fxd.js"></script>
+		<script>try{Typekit.load();}catch(e){}</script>
+    	
+	    <script>
+	      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	      ga('create', 'UA-61265657-1', 'auto');
+	      ga('send', 'pageview');
+
+	    </script>
+	    <link href="../../styles.css" rel="stylesheet">
+		<title>Protocols - Instant Cocoa</title>
+	</head>
+	<body class="docs">
+		<div id="container">
+			<div id="header">
+				<div id="header-inner">
+					<a href="/">
+						<img id="ic-logo" src="/images/logo-ic-small.png">
+						<h1>Instant Cocoa</h1>
+					</a>
+				</div>
+			</div>
+			<div id="content" class="clearfix">
+			<div id="docs-menu">
+				<h2>Contents</h2>
+<ul id="docs-menu">
+	<li><a href="http://instantcocoa.io/docs">Overview</a></li>
+    
+		
+	        <li>Core</li>
+		
+		<ul>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../../core/inflector">Inflector</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../../core/router">Router</a>
+			</li>
+        
+		</ul>
+    
+		
+	        <li><a href="..">Instant Model</a></li>
+		
+		<ul>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../collection-fetcher">Collection Fetcher</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../mapping">Mapping</a>
+			</li>
+        
+            <li class="toctree-l2 current">
+                <a class="current" href=".">Protocols</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../reflection">Reflection</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../resource-gateway">Resource Gateway</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../serializers">Serializers</a>
+			</li>
+        
+            <li class="toctree-l2 ">
+                <a class="" href="../value-objects">Value Objects</a>
+			</li>
+        
+		</ul>
+    
+</ul>
+
+			</div>
+			<div id="docs-content">
+				<h2 id="instant-model-protocols">Instant Model protocols</h2>
+<p>Instant Model's protocols provide flexibility when creating your model objects. Conforming to them will allow objects that don't subclass <code>ICModel</code> to continue to work with the rest of Instant Cocoa's infrastructure.</p>
+<h4 id="ickeyvaluecodable">ICKeyValueCodable</h4>
+<p>The <code>ICKeyValueCodable</code> protocol formalizes the existence of Key-Value Coding in protocol form. All <code>NSObjects</code> conform to it already, but the <code>&lt;NSObject&gt;</code> protocol doesn't provide those methods. Other protocols are dependent on this one, but you won't have to do any work to conform to it.</p>
+<pre><code>- (id)valueForKey:(NSString *)key;
+- (void)setValue:(id)value forKey:(NSString *)key;
+- (id)valueForKeyPath:(NSString *)keyPath;
+- (void)setValue:(id)value forKeyPath:(NSString *)keyPath;
+- (NSDictionary *)dictionaryWithValuesForKeys:(NSArray *)keys;
+- (void)setValuesForKeysWithDictionary:(NSDictionary *)keyedValues;
+</code></pre>
+<p>In <code>ICModel</code>, these don't have an implementation different from one provided by <code>NSObject</code>.</p>
+<h4 id="icinspectable">ICInspectable</h4>
+<p><code>ICInspectable</code> provides one class method:</p>
+<pre><code>+(NSDictionary*)properties;
+</code></pre>
+<p>This is a dictionary that maps key names to instances of <code>ICPropertyAttributes</code>. The <code>ICModelInspector</code> class provides an easy way to generate dictionaries for this role. A sample implementation:</p>
+<pre><code>+ (NSDictionary *)properties {
+    return [[[ICModelInspector new] initWithClass:self] properties];
+}
+</code></pre>
+<h4 id="icmappable">ICMappable</h4>
+<p>The <code>ICMappable</code> protocol inherits from <code>ICKeyValueCodable</code> and adds two methods for <a href="../../instant-model/mapping">converting to and from dictionaries</a>.</p>
+<pre><code>- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation;
+</code></pre>
+<h4 id="icjsonmappable">ICJSONMappable</h4>
+<p>The <code>ICJSONMappable</code> protocol inherits from <code>ICMappable</code>. It adds three required methods. <code>+JSONMapping</code> is an NSDictionary that maps local property names to JSON keypaths:</p>
+<pre><code>+ (NSDictionary*)JSONMapping;
+</code></pre>
+<p>With that data, <a href="../../instant-model/mapping">mapper objects can map to and from JSON</a>, using two other methods in the protocol:</p>
+<pre><code>- (instancetype)initWithJSONDictionary:(NSDictionary*)JSONDictionary;
+@property (nonatomic, copy, readonly) NSDictionary *JSONRepresentation;
+</code></pre>
+<p>And one optional method, in case the server response needs additional manipulation before it's mapped:</p>
+<pre><code>- (void)transformJSONRepresentationBeforeMapping:(NSDictionary**)JSONRepresentation;
+</code></pre>
+<h4 id="icremoteobject">ICRemoteObject</h4>
+<p>Objects that also have a remote component can conform to <code>ICRemoteObject</code>. This protocol provides information to <a href="../../instant-model/resource-gateway">objects that need to know how to access each model as a resource</a>.</p>
+<p>It responds to a class method, which corresponds to the singleton resouce, such as <code>/users</code></p>
+<pre><code>+ (NSString *)resourceEndpoint;
+</code></pre>
+<p>It also responds to an instance method, which corresponds to the resource for <em>that specific</em> model, such as <code>/users/123</code>.</p>
+<pre><code>- (NSString *)resourceEndpoint;
+</code></pre>
+<p>It also responds to an optional method that defines if the object lies at a particular keypath.</p>
+<pre><code>@optional
++ (NSString *)remoteKeyPath;
+</code></pre>
+
+			</div>
+		</div>
+		<div id="footer">
+			<div id="footer-inner">
+				<a href="/">Instant Cocoa</a> &middot; MIT Licensed &middot; by Soroush Khanlou
+			</div>
+		</div>
+	</body>
+</html>
