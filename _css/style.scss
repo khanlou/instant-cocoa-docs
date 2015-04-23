@@ -1,0 +1,506 @@
+@import //, 'vendor/**/*'
+        'vars'
+      , 'sass'
+      , 'reset'
+      , 'grid'
+      , 'base';
+
+
+//  ----------------------------------------------------------------------
+//  =ELEMENTS
+//  ----------------------------------------------------------------------
+
+body {
+  background: $grey;
+  @include font-size($font-size);
+
+  @media (max-width: $mobile) { font-size: 14px; }
+}
+
+@for $i from 1 through 6 {
+  %h#{$i} { @extend %h; }
+   h#{$i} { @extend %h#{$i}; }
+  .h#{$i} { @extend %h#{$i}; @include reset-type-heading; }
+}
+
+%h  { font-size: inherit; }
+%h1 { @include font-size(32px); margin: 0 0 12px; }
+%h2 { color: #57565a; @include font-size(28px); }
+%h3 { @include font-size(20px); margin: 0 0 16px; }
+%h4 { font-size: $font-size; }
+%h5 { font-size: $font-size; }
+%h6 { font-size: $font-size; }
+
+//a {
+//  color: $purple;
+//  border-bottom: 1px currentColor dotted;
+//  text-decoration: none;
+//
+//  &:hover,
+//  &:focus {
+//    border-bottom-style: solid;
+//  }
+//}
+
+pre,
+code {
+  background: #f8f8f8;
+  border: 1px #dedede solid;
+  border-radius: 3px;
+  color: #57565a;
+  font-family: Menlo, monospace;
+  font-size: 92%;
+  padding: 2px 5px;
+}
+
+pre {
+  line-height: 1.5;
+  padding: 5px 10px;
+  word-wrap: break-word;
+
+  &,
+  code {
+    white-space: pre-wrap;
+  }
+
+  code {
+    background: none;
+    border: 0;
+    font-size: 100%;
+    padding: 0;
+  }
+}
+
+code {
+  white-space: nowrap;
+}
+
+::selection {
+  background: $pink;
+  color: $purple;
+  text-shadow: none;
+}
+
+
+
+
+//  ----------------------------------------------------------------------
+//  =SCAFFOLDING
+//  ----------------------------------------------------------------------
+
+.container {
+  @media (max-width: $mobile) { padding: 0 $gutter / 2; }
+}
+
+
+
+
+//  ----------------------------------------------------------------------
+//  =COMPONENTS
+//  ----------------------------------------------------------------------
+
+$btn-padding: 18px;
+
+%btn {
+  border-bottom: 0;
+  display: inline-block;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background $duration $ease;
+}
+
+.btn {
+  $color: $pink;
+
+  @extend %btn;
+  border: 1px $color solid;
+  color: $purple;
+  @include font-size(14px);
+  padding: 8px 20px;
+
+  &:after {
+    content: '›';
+    @include font-size(21px);
+    margin: 0 0 0 9px;
+    vertical-align: -1px;
+  }
+
+  &:hover,
+  &:focus {
+    background: $color;
+  }
+}
+
+.btn-primary,
+.btn-secondary {
+  @extend %btn;
+  @include font-size($font-size);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.btn-primary {
+  background: linear-gradient(to top, #5d43f3 0%, #7762f4 17.99%, #7953f1 23.61%, #9264f2 25%, #a279f9 43.99%, #996bf7 50%, #b17df7 52%, #cb81fa 68.99%, #c877ee 75%, #da8cf8 77%, #e885f9 100%);
+  box-shadow: 0 1px 4px rgba(#000, 0.3);
+  color: #1d1167;
+  font-weight: bold;
+  padding: $btn-padding;
+  text-shadow: 0 1px rgba(#fff, 0.2);
+  transition-property: box-shadow;
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 1px 3px rgba(#000, 0.15);
+  }
+}
+
+.btn-secondary {
+  $border-width: 2px;
+  $color: #fff;
+  color: $color;
+  border: $border-width #fff solid;
+  padding: ($btn-padding - $border-width) $btn-padding;
+
+
+  &:hover,
+  &:focus {
+    background: rgba($color, 0.1);
+  }
+}
+
+
+
+
+//  ----------------------------------------------------------------------
+//  =PARTIALS
+//  ----------------------------------------------------------------------
+
+//  =HEADER
+.header {
+  color: #fff;
+  padding: 20px 0;
+
+  &-title {
+    @include font-size(24px);
+
+    a { color: inherit; }
+  }
+
+  &-logo {
+    float: left;
+    margin: -11px 5px 0 0;
+  }
+}
+
+
+//  =FOOTER
+.footer {
+  color: #fff;
+  padding: 10px 0;
+
+  &-link {
+    border-bottom: 0;
+    color: inherit;
+  }
+
+  &-title {
+    border-bottom: 1px currentColor solid;
+  }
+
+  &-license {
+    &:before,
+    &:after {
+      content: ' · ';
+    }
+  }
+
+  @media (max-width: 375px) {
+    &-title {
+      display: block;
+      border: 0;
+      margin: 0 0 6px;
+      text-decoration: underline;
+
+      &:hover,
+      &:focus {
+        border: 0;
+      }
+    }
+
+    &-license {
+      display: inline-block;
+
+      &:before { display: none; }
+    }
+  }
+}
+
+
+.content {
+  background: #fff;
+  padding: $gutter-y 0;
+}
+
+
+
+
+//  ----------------------------------------------------------------------
+//  =VIEWS
+//  ----------------------------------------------------------------------
+
+//  =HOME
+
+.content-header {
+  background: url('/images/grain.png'), linear-gradient(to bottom, darken(#38373a, 10%), $grey);
+  color: #f0ebfe;
+  padding: 56px 0 68px;
+  text-align: center;
+
+  p {
+    max-width: 660px;
+    @include font-size(22px);
+    line-height: 1.55;
+    margin: 0 auto 30px;
+    text-shadow: 0 1px rgba(#000, 0.4);
+
+    @media (max-width: $mobile) {
+      @include font-size(18px);
+    }
+  }
+
+  &-logo {
+    //margin: 0 auto -66px;
+    margin: 0 auto -40px;
+  }
+
+  &-actions {
+    font-size: 0;
+
+    [class*="btn"] {
+      $width: 232px;
+
+      min-width: $width;
+      margin: 0 20px;
+
+      @media (max-width: 500px) {
+        max-width: $width;
+        min-width: 0;
+        display: block;
+        margin: auto;
+
+        + [class*="btn"] {
+          margin-top: 15px;
+        }
+      }
+    }
+  }
+}
+
+
+.features { margin-bottom: $gutter-y; }
+
+.feature {
+  &-title { margin: 28px 0 15px; }
+
+  $features:
+    integrated $blue,
+    modular    $teal,
+    concise    $green;
+
+  @each $feature, $color in $features {
+    &-#{$feature} {
+      .feature-title { color: $color; }
+    }
+  }
+
+  @media (max-width: $tablet) {
+    display: table;
+
+    &-header {
+      width: 92px + $gutter;  // width of 'integrated'
+      display: table-cell;
+      padding: 0 $gutter 0 0;
+      text-align: center;
+    }
+
+    &-title { margin: 14px 0 0; }
+
+    p { display: table-cell; vertical-align: middle; }
+
+    & + & {
+      margin: $gutter-y / 2 0 0;
+    }
+  }
+}
+
+
+.concept {
+  border-top: 1px #e7e5ea solid;
+  padding: $gutter-y 0 0;
+
+  &-title {
+    width: 290px;
+    float: left;
+    margin: -4px 0 0;
+    padding: 0 $gutter 0 0;
+
+    > a {
+      border: 0;
+      color: #57565a;  // needed for `transition`
+      transition: color $duration $ease;
+
+      &:hover,
+      &:focus {
+        color: $purple;
+
+        > .concept-title-pre { color: $pink; }
+      }
+    }
+
+    &-pre { color: #a9a7af; transition: color $duration $ease; }
+
+    @media (max-width: $lt-full) {
+      width: 158px + $gutter;  // width of 'data source'
+
+      &-pre { display: block; }
+    }
+
+    @media (max-width: 650px) {
+      width: auto;
+      float: none;
+      margin: 0 0 16px;
+      padding: 0;
+
+      &-pre { display: inline; }
+    }
+  }
+
+  &-content {
+    @include font-size(18px);
+    line-height: 1.65;
+    overflow: hidden;
+
+    @media (max-width: $mobile) {
+      @include font-size(16px);
+    }
+  }
+
+  &-note {
+    font-size: 90%;
+    font-style: italic;
+  }
+
+  & + & {
+    margin: $gutter-y 0 0;
+  }
+}
+
+
+//  =DOCS
+
+.nav {
+  float: left;
+  @include font-size($font-size);
+  margin: 50px $gutter * 2 0 0;
+
+  a {
+    color: inherit;
+    border-bottom: 1px currentColor solid;
+    transition-duration: $duration;
+    transition-property: border-color color;
+    transition-timing-function: $ease;
+
+    &:hover,
+    &:focus {
+      color: $purple;
+      border-bottom-color: $pink;
+    }
+  }
+
+  &-list {
+    &-primary > li {
+      &,
+      > a { color: #57565a; }
+
+      > a {
+        display: inline-block;
+        margin: 0 0 2px;
+      }
+
+      + li { margin: 18px 0 0; }
+    }
+
+    &-secondary {
+      color: $text;
+      margin: 0 0 0 10px;
+
+      li { margin: 8px 0; }
+    }
+  }
+
+  @media (max-width: 675px) {
+    float: none;
+    margin: 0 0 $gutter-y;
+    overflow: hidden;
+
+    &-list-primary > li {
+      float: left;
+
+      + li { margin: 0 0 0 $gutter; }
+    }
+  }
+}
+
+.docs-article { overflow: hidden; }
+
+.article {
+  %h { color: #57565a; }
+
+  h2 {
+    @include font-size(24px);
+    margin: 34px 0 12px;
+  }
+
+  h3 {
+    @include font-size(19px);
+    margin: 28px 0 10px;
+  }
+
+  p,
+  ol,
+  ul,
+  pre { margin: 0 0 30px; }
+
+  p,
+  ol,
+  ul {
+    line-height: 1.75;
+  }
+
+  ol,
+  ul {
+    padding-left: $list-p;
+
+    > li + li { margin: 12px 0 0; }
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  a {
+    color: $purple;
+    border-bottom: 1px currentColor dotted;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      border-bottom-color: $pink;
+      border-bottom-style: solid;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+---
+layout: default
+---
+
+
+<div class="content">
+  <div class="container">
+    <nav class="nav">
+      <ul class="nav-list-primary">
+        <li>
+          <a href="/docs/">Overview</a>
+        </li>
+
+        {% for category in site.data.categories %}
+        <li>
+          {% if category.link == false %}
+          {{ category.title }}
+          {% else %}
+          <a href="{{ site.baseurl }}/docs/{{ category.title | slugify }}">{{ category.title }}</a>
+          {% endif %}
+
+          <ul class="nav-list-secondary">
+            {% assign docs = site.docs | where: "category", category.title %}
+            {% for doc in docs %}
+            <li>
+              <a href="{{ doc.url | prepend: site.baseurl }}" class="post-link link">{{ doc.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <article class="docs-article article">
+      <h1 class="doc-title">
+        {% if page.category == "Core" %}
+        Instant
+        {% endif %}
+
+        {{ page.title }}
+      </h1>
+      {{ content }}
+    </article>
+  </div>
+</div>

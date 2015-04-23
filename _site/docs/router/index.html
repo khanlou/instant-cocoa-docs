@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Router</title>
+
+    <meta name="description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta name="author"      content="Soroush Khanlou">
+
+    <meta property="og:site_name"   content="Router">
+    <meta property="og:title"       content="Router">
+    <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta property="og:image"       content="/images/logos/x-large.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <link rel="canonical" href="http://instantcocoa.io/docs/router/">
+    <link rel="alternate" href="http://instantcocoa.io/feed.xml" type="application/rss+xml" title="Instant Cocoa">
+
+    <script src="//use.typekit.net/sec7fxd.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+  </head>
+  <body>
+    
+    <header class="header">
+      <div class="container">
+        <h1 class="header-title">
+          <a href="/">
+            <img src="/images/logos/small.png" alt="" class="header-logo">
+            Instant Cocoa
+          </a>
+        </h1>
+      </div>
+    </header>
+    
+
+    <main class="main">
+      <div class="content">
+  <div class="container">
+    <nav class="nav">
+      <ul class="nav-list-primary">
+        <li>
+          <a href="/docs/">Overview</a>
+        </li>
+
+        
+        <li>
+          
+          Core
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/inflector/" class="post-link link">Inflector</a>
+            </li>
+            
+            <li>
+              <a href="/docs/router/" class="post-link link">Router</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li>
+          
+          <a href="/docs/instant-model">Instant Model</a>
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/collection-fetcher/" class="post-link link">Collection Fetcher</a>
+            </li>
+            
+            <li>
+              <a href="/docs/mapping/" class="post-link link">Mapping</a>
+            </li>
+            
+            <li>
+              <a href="/docs/protocols/" class="post-link link">Protocols</a>
+            </li>
+            
+            <li>
+              <a href="/docs/reflection/" class="post-link link">Reflection</a>
+            </li>
+            
+            <li>
+              <a href="/docs/resource-gateway/" class="post-link link">Resource Gateway</a>
+            </li>
+            
+            <li>
+              <a href="/docs/serializers/" class="post-link link">Serializers</a>
+            </li>
+            
+            <li>
+              <a href="/docs/value-objects/" class="post-link link">Value Objects</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+      </ul>
+    </nav>
+
+    <article class="docs-article article">
+      <h1 class="doc-title">
+        
+        Instant
+        
+
+        Router
+      </h1>
+      <p>Instant Cocoa’s Router allows you to easily map a URL or path to a specific view controller or set of view controllers.</p>
+
+<p>Setting up the router requires creating <code>ICRoute</code> objects, and registering them with the <code>ICRouter</code> singleton.</p>
+
+<h2 id="the-routes">The Routes</h2>
+
+<p>Route information is stored in objects of type <code>ICRoute</code>. Routes have a “matcher” and information about how to present view controllers. A typically route can is initialized like so:</p>
+
+<pre><code>id&lt;ICRouteMatcher&gt; matcher = [[ICSimpleRouteMatcher alloc] initWithPath:@"users/{user_id}"];
+ICRoute *route = [[ICRoute alloc] initWithMatcher:matcher];
+</code></pre>
+
+<p>A convenience method is provided for using simple route matching, and can be used like so:</p>
+
+<pre><code>ICRoute *route = [ICRoute routeWithPath:@"users/{user_id}"];
+</code></pre>
+
+<p>Other matchers can be created by conforming to the <code>ICRouteMatcher</code> protocol, which involves implmenting two methods:</p>
+
+<pre><code>- (BOOL)canHandlePath:(NSString*)incomingPath;
+- (NSDictionary*)parametersForPath:(NSString*)incomingPath;
+</code></pre>
+
+<p>Once a route is created, the route object can store additional information about how to present the route.</p>
+
+<ul>
+  <li><code>viewControllerClass</code>: The class that the router will alloc and init with the routing parameters from the matcher. View Controllers to be presented should conform to the <code>&lt;ICRoutable&gt;</code> protocol explicitly.</li>
+  <li><code>shouldPopToRoot</code>: Whether or not the navigation controller should pop to root before presenting this route.</li>
+  <li><code>navigationControllerKey</code>: An <code>NSString</code> that you can use to show the correct tab in a tab bar applciation.</li>
+  <li><code>dependencies</code>: An <code>NSArray</code> of other, dependent routes that should be executed before executing this route. Use this for nested resources.</li>
+</ul>
+
+<p>When a route is ready, register it with <code>ICRouter</code>.</p>
+
+<h2 id="the-router">The Router</h2>
+
+<p>The <code>ICRouter</code> class holds on to the routes and allows you to handle URLs opaquely.</p>
+
+<p>Creating a router allows you to:</p>
+
+<p>Register a new <code>ICRoute</code> with:</p>
+
+<pre><code>- (void)registerRoute:(ICRoute*)route;
+</code></pre>
+
+<p>Check if a route can be handled with:</p>
+
+<pre><code>- (BOOL)canHandleURL:(NSURL*)url;
+</code></pre>
+
+<p>Navigate to a route with:</p>
+
+<pre><code>- (BOOL)handleURL:(NSURL*)url;
+</code></pre>
+
+<p>Navigating to a route involves three steps:</p>
+
+<ol>
+  <li>Fetching all the parameters from the route matcher.</li>
+  <li>Navigating to all the routes dependencies.</li>
+  <li>Navigating to the route itself.</li>
+</ol>
+
+<p>Navigating to an individual route involves:</p>
+
+<ol>
+  <li>Showing the correct tab (if needed).</li>
+  <li>Allocating a new view controller, and calling <code>-initWithRoutingInfo:</code> on it (if it conforms to ICRoutable) or <code>-init</code> (if it doesn’t).</li>
+  <li>Popping to root if required and not a dependency.</li>
+  <li>Presenting the view controller.</li>
+</ol>
+
+<p>These steps can be overriden with the router’s delegate. The <code>ICRouterDelegate</code> protocol provides methods the following methods:</p>
+
+<pre><code>- (UIViewController*)showViewControllerWithKey:(NSString*)viewControllerKey;
+- (void)viewController:(UIViewController*)viewController requiresPopToRootForRoute:(ICRoute*)route;
+- (void) presentViewController:(UIViewController*)viewControllerToPresent forRoute:(ICRoute*)route fromViewController:(UIViewController*)fromViewController;
+</code></pre>
+
+<p>They will be called <em>instead of</em> the default behavior, if they are implemented.</p>
+
+    </article>
+  </div>
+</div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <a href="" class="footer-title footer-link">Instant Cocoa</a>
+        <a href="https://github.com/khanlou/instantcocoa/blob/master/LICENSE" class="footer-license footer-link">MIT Licensed</a>
+        By
+        <a href="" class="footer-link">Soroush Khanlou</a>
+      </div>
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-61265657-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>

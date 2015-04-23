@@ -1,0 +1,9 @@
+-
+  title: Integrated
+  description: "Instant Cocoa components are designed to integrate easily with each other, making simple things quick and complex things possible."
+-
+  title: Modular
+  description: "Built on Objective-C’s protocols, Instant Cocoa lets you inject your own code and classes when the provided ones don’t provide the flexibility you need."
+-
+  title: Concise
+  description: "Instant Cocoa comes with lots of ready-made objects for common tasks, reducing the amount of boilerplate you have to write."

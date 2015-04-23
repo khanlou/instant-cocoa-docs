@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Inflector</title>
+
+    <meta name="description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta name="author"      content="Soroush Khanlou">
+
+    <meta property="og:site_name"   content="Inflector">
+    <meta property="og:title"       content="Inflector">
+    <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta property="og:image"       content="/images/logos/x-large.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <link rel="canonical" href="http://instantcocoa.io/docs/inflector/">
+    <link rel="alternate" href="http://instantcocoa.io/feed.xml" type="application/rss+xml" title="Instant Cocoa">
+
+    <script src="//use.typekit.net/sec7fxd.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+  </head>
+  <body>
+    
+    <header class="header">
+      <div class="container">
+        <h1 class="header-title">
+          <a href="/">
+            <img src="/images/logos/small.png" alt="" class="header-logo">
+            Instant Cocoa
+          </a>
+        </h1>
+      </div>
+    </header>
+    
+
+    <main class="main">
+      <div class="content">
+  <div class="container">
+    <nav class="nav">
+      <ul class="nav-list-primary">
+        <li>
+          <a href="/docs/">Overview</a>
+        </li>
+
+        
+        <li>
+          
+          Core
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/inflector/" class="post-link link">Inflector</a>
+            </li>
+            
+            <li>
+              <a href="/docs/router/" class="post-link link">Router</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li>
+          
+          <a href="/docs/instant-model">Instant Model</a>
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/collection-fetcher/" class="post-link link">Collection Fetcher</a>
+            </li>
+            
+            <li>
+              <a href="/docs/mapping/" class="post-link link">Mapping</a>
+            </li>
+            
+            <li>
+              <a href="/docs/protocols/" class="post-link link">Protocols</a>
+            </li>
+            
+            <li>
+              <a href="/docs/reflection/" class="post-link link">Reflection</a>
+            </li>
+            
+            <li>
+              <a href="/docs/resource-gateway/" class="post-link link">Resource Gateway</a>
+            </li>
+            
+            <li>
+              <a href="/docs/serializers/" class="post-link link">Serializers</a>
+            </li>
+            
+            <li>
+              <a href="/docs/value-objects/" class="post-link link">Value Objects</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+      </ul>
+    </nav>
+
+    <article class="docs-article article">
+      <h1 class="doc-title">
+        
+        Instant
+        
+
+        Inflector
+      </h1>
+      <p>In addition to the singularization and pluralization provided by <a href="https://github.com/mattt/InflectorKit">InflectorKit</a>, Instant Cocoa also provides a class for quickly manipulating strings for use by the runtime.</p>
+
+<h2 id="the-inflector">The Inflector</h2>
+
+<p>Instant Cocoa’s powerful <a href="../instant-model/reflection">introspection and reflection</a> capabilities are reliant on the ability to generate strings of specific formats easily. The <code>ICInflector</code> class provides that capability.</p>
+
+<h3 id="prefixes">Prefixes</h3>
+
+<p>Classes in Objective-C are usually prefixed with a 2 or 3 letter code representing the author of the class. <code>ICInflector</code> includes the capability of automatically stripping these class prefixes so that meaningful information can be extracted from the class name.</p>
+
+<p>Instant Cocoa automatically includes the prefixes <code>IC</code> and <code>NS</code>.  You can add your own prefixes to the <code>sharedInflector</code>:</p>
+
+<pre><code>[[ICInflector sharedInflector] addPrefixes:[NSSet setWithObject:@"SK"]];
+</code></pre>
+
+<h3 id="property-name-transformation">Property name transformation</h3>
+
+<p>An <code>@property</code> in Objective-C is usually <code>llamaCased</code>, meaning that the first letter of the first word is lowercased, and the first letter of every other word is capitalized. When retrieving from JSON, key names are usually <code>snake_cased</code>, meaning that they are lowercase, and joined by underscores.</p>
+
+<p>For display and in other cases, these names have to be transformed to different types. These types include:</p>
+
+<ul>
+  <li>CamelCase: The first word of each component is capitalized.</li>
+  <li>llamaCase: The first word is lowercase, but each other component is capitalized</li>
+  <li>snake_case: All words are lowercased, and joined by underscores</li>
+  <li>train-case: All words are lowercased, and joined by hyphens</li>
+</ul>
+
+<p>Abbreviations, such a “URL” in <code>aURLProperty</code>, are automatically intuited. <code>aURLProperty</code> would be transformed to, in snake_case, <code>a_url_property</code>. In a near-future version of Instant Cocoa, you will be required to register such abbreviations explicitly, and common abbreviations, like “URL”, will be pre-registered.</p>
+
+<p>You can take advantage of these transformations by calling the appropriate method on <code>ICInflector</code>:</p>
+
+<pre><code>[ICInflector sharedInflector] camelCasedString:myString];
+</code></pre>
+
+<p>A category is also provided, for convenience:</p>
+
+<pre><code>[myString camelCasedString];
+</code></pre>
+
+<h3 id="pluralization">Pluralization</h3>
+
+<p>Pluralization and singularization is powered by <a href="https://github.com/mattt/InflectorKit">InflectorKit</a>. It can be invoked as a category on <code>NSString</code>:</p>
+
+<pre><code>[myString singularizedString];
+[myString pluralizedString];
+</code></pre>
+
+<p>See the documentation for that library for adding custom pluralizations.</p>
+
+<h3 id="selector-generation">Selector Generation</h3>
+
+<p>One common use of the inflector is to generate selectors from strings. <code>ICInflector</code> provides a method to do that.</p>
+
+<pre><code>- (SEL)selectorWithPrefix:(NSString*)prefix propertyName:(NSString*)propertyName suffix:(NSString*)suffix;
+</code></pre>
+
+<p>To generate a setter from a property name, for example, you could call</p>
+
+<pre><code>[[ICInflector sharedInflector] selectorWithPrefix:@"set" propertyName:propertyName suffix:@“:”];
+</code></pre>
+
+<p><code>ICInflector</code> will automatically handle all of the casing requirements for generating such selectors.</p>
+
+
+    </article>
+  </div>
+</div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <a href="" class="footer-title footer-link">Instant Cocoa</a>
+        <a href="https://github.com/khanlou/instantcocoa/blob/master/LICENSE" class="footer-license footer-link">MIT Licensed</a>
+        By
+        <a href="" class="footer-link">Soroush Khanlou</a>
+      </div>
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-61265657-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>

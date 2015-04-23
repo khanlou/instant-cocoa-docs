@@ -1,0 +1,28 @@
+title: Instant Cocoa
+description: "Instant Cocoa is an Objective-C framework for making iOS apps."
+author: Soroush Khanlou
+
+url: http://instantcocoa.io
+baseurl: ""
+site: http://khanlou.com
+repo: https://github.com/khanlou/instantcocoa/
+
+permalink: /:title/
+markdown: kramdown
+
+collections:
+  docs:
+    output: true
+    permalink: /docs/:name/
+
+gems:
+  - sass-globbing
+
+exclude:
+  - .DS_Store
+  - node_modules
+  - package.json
+  - Gruntfile.js
+  - .sass-cache
+  - .git
+  - .gitignore

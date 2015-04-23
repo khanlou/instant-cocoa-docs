@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Mapping</title>
+
+    <meta name="description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta name="author"      content="Soroush Khanlou">
+
+    <meta property="og:site_name"   content="Mapping">
+    <meta property="og:title"       content="Mapping">
+    <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta property="og:image"       content="/images/logos/x-large.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <link rel="canonical" href="http://instantcocoa.io/docs/mapping/">
+    <link rel="alternate" href="http://instantcocoa.io/feed.xml" type="application/rss+xml" title="Instant Cocoa">
+
+    <script src="//use.typekit.net/sec7fxd.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+  </head>
+  <body>
+    
+    <header class="header">
+      <div class="container">
+        <h1 class="header-title">
+          <a href="/">
+            <img src="/images/logos/small.png" alt="" class="header-logo">
+            Instant Cocoa
+          </a>
+        </h1>
+      </div>
+    </header>
+    
+
+    <main class="main">
+      <div class="content">
+  <div class="container">
+    <nav class="nav">
+      <ul class="nav-list-primary">
+        <li>
+          <a href="/docs/">Overview</a>
+        </li>
+
+        
+        <li>
+          
+          Core
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/inflector/" class="post-link link">Inflector</a>
+            </li>
+            
+            <li>
+              <a href="/docs/router/" class="post-link link">Router</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li>
+          
+          <a href="/docs/instant-model">Instant Model</a>
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/collection-fetcher/" class="post-link link">Collection Fetcher</a>
+            </li>
+            
+            <li>
+              <a href="/docs/mapping/" class="post-link link">Mapping</a>
+            </li>
+            
+            <li>
+              <a href="/docs/protocols/" class="post-link link">Protocols</a>
+            </li>
+            
+            <li>
+              <a href="/docs/reflection/" class="post-link link">Reflection</a>
+            </li>
+            
+            <li>
+              <a href="/docs/resource-gateway/" class="post-link link">Resource Gateway</a>
+            </li>
+            
+            <li>
+              <a href="/docs/serializers/" class="post-link link">Serializers</a>
+            </li>
+            
+            <li>
+              <a href="/docs/value-objects/" class="post-link link">Value Objects</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+      </ul>
+    </nav>
+
+    <article class="docs-article article">
+      <h1 class="doc-title">
+        
+
+        Mapping
+      </h1>
+      <p>Mapping to and from JSON is central to working with resources with a remote component. Instant Cocoa can apply attributes from a JSON object to a local domain object.</p>
+
+<h2 id="icjsonmapper">ICJSONMapper</h2>
+
+<p>The <code>ICJSONMapper</code> class does the heavy lifting of mapping model objects to and from dictionary representations and JSON representations. It handles serializers, collections, child models, and value objects.</p>
+
+<p><em>Warning: This class will probably be broken up into two classes or more in the near future.</em></p>
+
+<h2 id="dictionary-mapping">Dictionary mapping</h2>
+
+<p>Model objects can be converted to and from dictionaries. You can declare your own objects as Mappable by conforming to the <code>ICMappable</code> protocol, which provides two instance methods:</p>
+
+<pre><code>- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation;
+</code></pre>
+
+<p>which convert to and from dictionaries.</p>
+
+<h3 id="mapping-to-dictionaries">Mapping to dictionaries</h3>
+
+<p>When converting a model to a dictionary, the names of the properties are preserved as key names. This functionality can be accessed with the method</p>
+
+<pre><code>- (NSDictionary *)dictionaryRepresentationOfObject:(id&lt;ICMappable&gt;)object;
+</code></pre>
+
+<p>The mapper loops through each property and checks its value.</p>
+
+<ul>
+  <li>If the value is <code>nil</code> or <code>NSNull</code>, it is skipped.</li>
+  <li>If that value conforms to <code>ICMappable</code>, it will be converted to a dictionary as well, by calling <code>-dictionaryRepresentation</code> on it.</li>
+  <li>If that value has a valid serializer, it will be deserialized using the serializer.</li>
+  <li>If that value is a value object (declared by conforming to <code>ICValueObject</code>), it’s <code>-backingObject</code> property will be used.</li>
+  <li>If that value is a collection, the items in the collection will be looped through, and the item will be replaced with its dictionary representation is available (i.e., if it conforms to <code>ICMappable</code>). Currently, values objects and objects that use serializers are not supported, but they would ideally be.</li>
+</ul>
+
+<p>After converting each child element to a dictionary-compatible format, the completed dictionary is returned.</p>
+
+<p>Objects graphs with retain cycles currently have undefined behavior.</p>
+
+<h3 id="mapping-from-dictionaries">Mapping from dictionaries</h3>
+
+<p>Mapping from dictionaries is largely similar, but in reverse. It can be found in the method:</p>
+
+<pre><code>- (id)mapFromDictionary:(NSDictionary*)dictionary toObject:(id&lt;ICMappable&gt;)object;
+</code></pre>
+
+<p>For each property on the target object, the input dictionary is checked for a value.</p>
+
+<ul>
+  <li>If that value is non-existent, it is skipped.</li>
+  <li>If the value is a collection type (<code>NSArray</code>, <code>NSSet</code>, <code>NSOrderedSet</code>), the mapper fetches the intended class to map to. Because Objective-C doesn’t support annotating collections with the objects they contain, the mapper calls a class method on the model, in the form of <code>+mappingClassFor&lt;propertyName&gt;</code>. For example, if the propery were named <code>addresses</code>, the mapper would call a method called <code>+mappingClassForAddresses</code>. If the model doesn’t respond to that message, the collection will contain dictionaries.</li>
+  <li>If the value is an <code>NSNumber</code> or an <code>NSString</code>, and the target property has a class that conforms to the <code>ICValueObject</code> protocol, the target object will contain a value object of that type with that value for that property.</li>
+  <li>If the target property has a class that conforms to <code>ICMappable</code>, that value in the target object is checked. If the value in the target object exists, the object is updated. If it does not exist, a new object is allocated, and that new object is updated.</li>
+</ul>
+
+<p>After transformation, each value is applied to the target object using key-value coding.</p>
+
+<h2 id="json-mapping">JSON mapping</h2>
+
+<p>JSON Mapping is similar to dictionary mapping, with three additional guarantees. First, all values coming out will be JSON-compatible (meaning they are either numbers, booleans, strings, null, dictionaries, or arrays, and all values going in must also be JSON-compatible. Second, when converting from JSON, values may be fetched from nested objects; the converse also holds, when converting to JSON, values may be placed in nested objects. Lastly, each model has a chance to manipulate the JSON dictionary before mapping, with the method:</p>
+
+<pre><code>- (void)transformJSONRepresentationBeforeMapping:(NSDictionary**)JSONRepresentation;
+</code></pre>
+
+<h3 id="mapping-to-json">Mapping to JSON</h3>
+
+<p>The functionality for mapping to JSON can be accessed in the method</p>
+
+<pre><code>- (NSDictionary*)JSONRepresentationOfObject:(id&lt;ICJSONMappable&gt;)object;
+</code></pre>
+
+<p>Like with dictionaries, getting the JSON representation of a model involves looping through each property on the object.</p>
+
+<ul>
+  <li>If the value is <code>nil</code> or <code>NSNull</code>, it is skipped.</li>
+  <li>If the value is <code>ICJSONMappable</code>, <code>-JSONRepresentation</code> is called on it.</li>
+  <li>If the value is a collection type (<code>NSArray</code>, <code>NSSet</code>, <code>NSOrderedSet</code>), the mapper transforms the collection to an array (for JSON compatibility), and each element inside that conforms to <code>ICJSONMappable</code> is converted to JSON by calling <code>-JSONRepresentation</code> on it.</li>
+  <li>If the value conforms to the <code>ICValueObject</code> protocol, it’s transformed to its backing object.</li>
+  <li>If the value has a valid serializer, it is deserialized using that serializer.</li>
+</ul>
+
+<p>After each property’s value is transformed, the intended location in the JSON dictionary is determined by the <code>+JSONMapping</code> provided by the model class, and the mapper will create any intermediate dictionaries that are required to place that value in its intended location. If a key is not in the JSON mapping, it will be assumed to be the same as the property’s name.</p>
+
+<h3 id="mapping-from-json">Mapping from JSON</h3>
+
+<p>Mapping from JSON can be accessed with the method</p>
+
+<pre><code>- (id)mapFromJSONDictionary:(NSDictionary*)JSONDictionary toObject:(id&lt;ICJSONMappable&gt;)object;
+</code></pre>
+
+<p>Mapping occurs in two phases: first, the JSON is “flattened” to a flat dictionary version of the JSON, and then that dictionary is applied to the model object using the same technique as defined in the section “Mapping from dictionaries”.</p>
+
+<p>To flatten the JSON, each property of the model object is looped through. Using the <code>+JSONMapping</code> from the model, values are fetched from the JSON and placed in a new dictionary where they keys are the property names of the class.</p>
+
+<p>Once this flattened JSON is obtained, it is applied to the model using</p>
+
+<pre><code>- (id)mapFromDictionary:(NSDictionary*)dictionary toObject:(id&lt;ICMappable&gt;)object;
+</code></pre>
+
+
+    </article>
+  </div>
+</div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <a href="" class="footer-title footer-link">Instant Cocoa</a>
+        <a href="https://github.com/khanlou/instantcocoa/blob/master/LICENSE" class="footer-license footer-link">MIT Licensed</a>
+        By
+        <a href="" class="footer-link">Soroush Khanlou</a>
+      </div>
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-61265657-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>

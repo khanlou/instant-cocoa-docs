@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Resource Gateway</title>
+
+    <meta name="description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta name="author"      content="Soroush Khanlou">
+
+    <meta property="og:site_name"   content="Resource Gateway">
+    <meta property="og:title"       content="Resource Gateway">
+    <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta property="og:image"       content="/images/logos/x-large.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <link rel="canonical" href="http://instantcocoa.io/docs/resource-gateway/">
+    <link rel="alternate" href="http://instantcocoa.io/feed.xml" type="application/rss+xml" title="Instant Cocoa">
+
+    <script src="//use.typekit.net/sec7fxd.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+  </head>
+  <body>
+    
+    <header class="header">
+      <div class="container">
+        <h1 class="header-title">
+          <a href="/">
+            <img src="/images/logos/small.png" alt="" class="header-logo">
+            Instant Cocoa
+          </a>
+        </h1>
+      </div>
+    </header>
+    
+
+    <main class="main">
+      <div class="content">
+  <div class="container">
+    <nav class="nav">
+      <ul class="nav-list-primary">
+        <li>
+          <a href="/docs/">Overview</a>
+        </li>
+
+        
+        <li>
+          
+          Core
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/inflector/" class="post-link link">Inflector</a>
+            </li>
+            
+            <li>
+              <a href="/docs/router/" class="post-link link">Router</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li>
+          
+          <a href="/docs/instant-model">Instant Model</a>
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/collection-fetcher/" class="post-link link">Collection Fetcher</a>
+            </li>
+            
+            <li>
+              <a href="/docs/mapping/" class="post-link link">Mapping</a>
+            </li>
+            
+            <li>
+              <a href="/docs/protocols/" class="post-link link">Protocols</a>
+            </li>
+            
+            <li>
+              <a href="/docs/reflection/" class="post-link link">Reflection</a>
+            </li>
+            
+            <li>
+              <a href="/docs/resource-gateway/" class="post-link link">Resource Gateway</a>
+            </li>
+            
+            <li>
+              <a href="/docs/serializers/" class="post-link link">Serializers</a>
+            </li>
+            
+            <li>
+              <a href="/docs/value-objects/" class="post-link link">Value Objects</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+      </ul>
+    </nav>
+
+    <article class="docs-article article">
+      <h1 class="doc-title">
+        
+
+        Resource Gateway
+      </h1>
+      <p>Model objects live locally as well as remotely. Instant Cocoa has affordances for manipulating objects remotely.</p>
+
+<p>The REST-based resource model corresponds to the entity model quite well, so each <code>ICModel</code> instance has a <strong>resource gateway</strong>. This terminology is borrowed from Martin Fowler’s Patterns of Enterprise Application Archicture.</p>
+
+<p>Each class and instance has a resource gateway, represented by the class <code>ICResourceGateway</code>. Resource gateways are lazily loaded by ICModel, so to create one, just call <code>-resourceGateway</code>. You can then use it that gateway to perform REST “actions” on your remote objects. For example, if you had a user object, and you wanted to current user to follow them, you could invoke:</p>
+
+<pre><code>[someUser.resourceGateway performAction:@"follow" successBlock:nil failureBlock:nil];
+</code></pre>
+
+<p>This corresponds to the REST endpoint <code>users/1234/follow</code>.</p>
+
+<h2 id="http-verbs">HTTP Verbs</h2>
+
+<p>Passing in an HTTP verb will perform that verb. For example, if you wanted to destroy the remote object, you could invoke:</p>
+
+<pre><code>[someUser.resourceGateway performAction:@"DELETE" successBlock:nil failureBlock:nil];
+</code></pre>
+
+<p>There are shorthands for all these methods. The category <code>ICModel+Remote</code> contains convenience methods for the default verbs.</p>
+
+<p>There are a few ways to customize <code>ICResourceGateway</code>:</p>
+
+<h3 id="updateobjectoncompletion"><code>updateObjectOnCompletion</code></h3>
+
+<pre><code>@property (nonatomic, assign) BOOL updateObjectOnCompletion;
+</code></pre>
+
+<p>If the model object should update itself after successful completion with the response from the server, set this to <code>YES</code>. It defaults to <code>YES</code>.</p>
+
+<h3 id="httpverbforcustomactions"><code>HTTPVerbForCustomActions</code></h3>
+
+<pre><code>@property (nonatomic, strong) HTTPVerb *HTTPVerbForCustomActions;
+</code></pre>
+
+<p>If an action isn’t an HTTP verb (such as the <code>follow</code> example from above), <code>ICResourceGateway</code> defaults to using <code>HTTPVerbPUT</code>. This property allows you to customize the verb.</p>
+
+<h3 id="remotekeypath"><code>remoteKeypath</code></h3>
+
+<pre><code>@property (nonatomic, strong) NSString *remoteKeypath;
+</code></pre>
+
+<p>This defaults to the value from model (assuming it conforms to <code>ICRemoteObject</code>), but it can be overridden in specific cases.</p>
+
+<h2 id="injection">Injection</h2>
+
+<p>It currently doesn’t have a protocol (as a means of hooking in customized objects), but this is an addition that would be welcomed.</p>
+
+    </article>
+  </div>
+</div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <a href="" class="footer-title footer-link">Instant Cocoa</a>
+        <a href="https://github.com/khanlou/instantcocoa/blob/master/LICENSE" class="footer-license footer-link">MIT Licensed</a>
+        By
+        <a href="" class="footer-link">Soroush Khanlou</a>
+      </div>
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-61265657-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>

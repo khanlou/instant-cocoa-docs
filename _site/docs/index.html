@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Instant Cocoa</title>
+
+    <meta name="description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta name="author"      content="Soroush Khanlou">
+
+    <meta property="og:site_name"   content="Instant Cocoa">
+    <meta property="og:title"       content="Instant Cocoa">
+    <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta property="og:image"       content="/images/logos/x-large.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <link rel="canonical" href="http://instantcocoa.io/docs/">
+    <link rel="alternate" href="http://instantcocoa.io/feed.xml" type="application/rss+xml" title="Instant Cocoa">
+
+    <script src="//use.typekit.net/sec7fxd.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+  </head>
+  <body>
+    
+    <header class="header">
+      <div class="container">
+        <h1 class="header-title">
+          <a href="/">
+            <img src="/images/logos/small.png" alt="" class="header-logo">
+            Instant Cocoa
+          </a>
+        </h1>
+      </div>
+    </header>
+    
+
+    <main class="main">
+      <div class="content">
+  <div class="container">
+    <nav class="nav">
+      <ul class="nav-list-primary">
+        <li>
+          <a href="/docs/">Overview</a>
+        </li>
+
+        
+        <li>
+          
+          Core
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/inflector/" class="post-link link">Inflector</a>
+            </li>
+            
+            <li>
+              <a href="/docs/router/" class="post-link link">Router</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li>
+          
+          <a href="/docs/instant-model">Instant Model</a>
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/collection-fetcher/" class="post-link link">Collection Fetcher</a>
+            </li>
+            
+            <li>
+              <a href="/docs/mapping/" class="post-link link">Mapping</a>
+            </li>
+            
+            <li>
+              <a href="/docs/protocols/" class="post-link link">Protocols</a>
+            </li>
+            
+            <li>
+              <a href="/docs/reflection/" class="post-link link">Reflection</a>
+            </li>
+            
+            <li>
+              <a href="/docs/resource-gateway/" class="post-link link">Resource Gateway</a>
+            </li>
+            
+            <li>
+              <a href="/docs/serializers/" class="post-link link">Serializers</a>
+            </li>
+            
+            <li>
+              <a href="/docs/value-objects/" class="post-link link">Value Objects</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+      </ul>
+    </nav>
+
+    <article class="docs-article article">
+      <h1 class="doc-title">
+        
+
+        Instant Cocoa
+      </h1>
+      <h2 id="what-is-instant-cocoa">What is Instant Cocoa?</h2>
+
+<p>Instant Cocoa is an Objective-C framework for making iPhone apps. Instant Cocoa makes intelligent guesses about how your system is set up using introspection, and provides convenient points to override those guesses when you need to.</p>
+
+<p>Instant Cocoa cuts down on the amount of boilerplate you have to write when creating your app by leveraging the powerful dynamic features of Objective-C and generalizing the components that we have to use every day.</p>
+
+<h2 id="whats-in-instant-cocoa">What’s in Instant Cocoa?</h2>
+
+<p>Instant Cocoa is very modular. Each component is only reliant on the components above it.</p>
+
+<h3 id="dependencies">Dependencies</h3>
+
+<p>Instant Cocoa is dependent on <a href="https://github.com/khanlou/Objective-Shorthand">Objective-Shorthand</a>, <a href="https://github.com/mattt/InflectorKit">InflectorKit</a>, and <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a>.</p>
+
+<h3 id="instant-core">Instant Core</h3>
+
+<p>Instant Cocoa’s core provides the shared functionality that all of the other components rely on.</p>
+
+<ul>
+  <li><a href="core/router">Routing</a> - <code>ICRouter</code> does the heavy lifting of mapping urls and paths to view controllers. It supports path matching, variables, and dependencies, and it also provides hooks for custom navigation controllers.</li>
+  <li><a href="core/inflector">Inflector</a> - <code>ICInflector</code> does some of the same work as Rails’s inflector, but more specialized for the needs of a modern Objective-C app, such as dynamically building selectors from string components.</li>
+</ul>
+
+<h3 id="instant-model">Instant Model</h3>
+
+<p>Instant Cocoa’s model is very powerful. It’s built on a lot of the ideas of the <code>RestKit</code> and <code>Mantle</code> frameworks. It has support for:</p>
+
+<ul>
+  <li><a href="instant-model/reflection">Reflection</a> - Reflection lies at the heart of <code>ICModel</code>. It allows the class to peer into itself to understand its own properties and the attributes they have (such as <code>weak</code>, <code>readonly</code>, <code>copy</code>, etc).</li>
+  <li><a href="instant-model/mapping">Dictionary and JSON Mapping</a> - <code>ICModel</code> can map a dictionary or JSON object to a model object, automatically serializing date and URL objects using the built-in ICSerializers.</li>
+  <li>Coding, Equality, and Hashing - <code>ICModel</code>’s introspection enables each model to be able to encode itself using <code>NSCoding</code>, and to automatically provide descriptions, equality checks, and hashing.</li>
+  <li><a href="instant-model/serializers">Serializers</a> - <code>ICSerializer</code> is a protocol that allows value objects to be easily serialized. Date and URL serializers are included. These serializers are automatically used where appropriate, such as in object mapping.</li>
+  <li><a href="instant-model/value-objects">Value Objects</a> - ICValueObject is a protocol and class that allows you to easily make value objects that can tie type, value, and behavior together.</li>
+  <li><a href="instant-model/resource-gateway">Gateways</a> - Model objects are almost always networking, so <code>ICModel</code> gives you the power to fetch, create, update, delete objects, using REST-based resource conventions. It also gives you the ability to perform REST-like verbs on your objects with a native interface.</li>
+</ul>
+
+<h3 id="instant-data-source">Instant Data Source</h3>
+
+<p>A large amount of the boilerplate in our apps is dealing with table views and collection views and their totally bewildering API. <code>ICDataSource</code> objects are an attempt to simplify that. They are designed to be configured, rather than continually modified. After being configured, they present a straightforward API for table views and collection views to consume.</p>
+
+<ul>
+  <li><code>ICSimpleDataSource</code> presents any array of objects to the table view.</li>
+  <li><code>ICSectionedDataSource</code> takes an array and a sectioning key. It then splits that array into sections based on the sectioning key.</li>
+  <li><code>ICRemoteDataSource</code> is powered by an API endpoint. It also takes a model for automatic mapping. It provides information to the table view about whether it is loading, had an error, and of course, the objects its presenting.</li>
+  <li><code>ICPaginatedDataSource</code> is similar to the remote data source, but also takes keys that let it automatically download the next page of objects.</li>
+  <li><code>ICMultiDataSource</code> is where the true power of data source objects is revealed: It takes several sub-datasources, fetches all of them, and presents them to the table view (or collection view) as they are ready, allowing you to have mixed data types in your table view without the effort of painstakingly synchronizing each of them.</li>
+</ul>
+
+<h3 id="instant-view-controller">Instant View Controller</h3>
+
+<p>Data Source objects are very useful, but without a table view to talk to, they’re not doing very much.</p>
+
+<ul>
+  <li><code>ICTableViewController</code> provides the basic implementation for a table view. It will agnostically display any Data Source, and will also automatically fetch new pages, if it is displaying a Paginated Data Source.</li>
+  <li><code>ICCollectionViewController</code> is essentially the same, but with a collection view instead of a table view.</li>
+</ul>
+
+<h2 id="why-instant-cocoa">Why Instant Cocoa?</h2>
+
+<p>Instant Cocoa is a way of fighting all of boilerplate that we write daily in our apps. The less code we write, the more expressive we can be, the easier code review is, the easier it is to track down bugs, and the faster we can get through the boring stuff and get to the interesting parts of our apps.</p>
+
+<p>Open-source code is extremely important because it allows us to work together on the common code in our code base. Relying on our vendor to provide the framework is risky, since Apple only provides code only when it is absolutely necessary, and the code they provide is usually very conservative. It is up to us to create the frameworks that we need make our app development easier.</p>
+
+    </article>
+  </div>
+</div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <a href="" class="footer-title footer-link">Instant Cocoa</a>
+        <a href="https://github.com/khanlou/instantcocoa/blob/master/LICENSE" class="footer-license footer-link">MIT Licensed</a>
+        By
+        <a href="" class="footer-link">Soroush Khanlou</a>
+      </div>
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-61265657-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>

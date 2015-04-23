@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Collection Fetcher</title>
+
+    <meta name="description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta name="author"      content="Soroush Khanlou">
+
+    <meta property="og:site_name"   content="Collection Fetcher">
+    <meta property="og:title"       content="Collection Fetcher">
+    <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta property="og:image"       content="/images/logos/x-large.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <link rel="canonical" href="http://instantcocoa.io/docs/collection-fetcher/">
+    <link rel="alternate" href="http://instantcocoa.io/feed.xml" type="application/rss+xml" title="Instant Cocoa">
+
+    <script src="//use.typekit.net/sec7fxd.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+  </head>
+  <body>
+    
+    <header class="header">
+      <div class="container">
+        <h1 class="header-title">
+          <a href="/">
+            <img src="/images/logos/small.png" alt="" class="header-logo">
+            Instant Cocoa
+          </a>
+        </h1>
+      </div>
+    </header>
+    
+
+    <main class="main">
+      <div class="content">
+  <div class="container">
+    <nav class="nav">
+      <ul class="nav-list-primary">
+        <li>
+          <a href="/docs/">Overview</a>
+        </li>
+
+        
+        <li>
+          
+          Core
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/inflector/" class="post-link link">Inflector</a>
+            </li>
+            
+            <li>
+              <a href="/docs/router/" class="post-link link">Router</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li>
+          
+          <a href="/docs/instant-model">Instant Model</a>
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/collection-fetcher/" class="post-link link">Collection Fetcher</a>
+            </li>
+            
+            <li>
+              <a href="/docs/mapping/" class="post-link link">Mapping</a>
+            </li>
+            
+            <li>
+              <a href="/docs/protocols/" class="post-link link">Protocols</a>
+            </li>
+            
+            <li>
+              <a href="/docs/reflection/" class="post-link link">Reflection</a>
+            </li>
+            
+            <li>
+              <a href="/docs/resource-gateway/" class="post-link link">Resource Gateway</a>
+            </li>
+            
+            <li>
+              <a href="/docs/serializers/" class="post-link link">Serializers</a>
+            </li>
+            
+            <li>
+              <a href="/docs/value-objects/" class="post-link link">Value Objects</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+      </ul>
+    </nav>
+
+    <article class="docs-article article">
+      <h1 class="doc-title">
+        
+
+        Collection Fetcher
+      </h1>
+      <p>Some REST endpoints represent a collection of resources. Instant Cocoa has an affordance for downloading and mapping an array of remote objects, called <code>ICCollectionFetcher</code>. <code>ICCollectionFetcher</code> provides the core of <code>ICRemoteDataSource</code> and <code>ICPaginatedDataSource</code>.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p><code>ICCollectionFetcher</code> is designed to be configured and used.</p>
+
+<h3 id="mappingclass"><code>mappingClass</code></h3>
+
+<p>To map each object in the array, <code>ICCollectionFetcher</code> needs to know what class to use. This class should conform to <code>ICJSONMappable</code>. If it is blank, <code>ICCollectionFetcher</code> will return an array of <code>NSDictionary</code> instances.</p>
+
+<h3 id="remoteconfiguration"><code>remoteConfiguration</code></h3>
+
+<p>The <code>remoteConfiguration</code> parameter tells the collection fetcher what base URL to use, as well as what headers. An <code>AFHTTPRequestOperationManager</code> can be injected with the <code>networkRequestManager</code> property, but the future of AFNetworking in Instant Cocoa is unsure.</p>
+
+<h3 id="queryparameters"><code>queryParameters</code></h3>
+
+<p>Query parameters can be used to sort or filter your request, as the API needs.</p>
+
+<h3 id="apipath"><code>apiPath</code></h3>
+
+<p>The <code>apiPath</code> parameter determines what endpoint to fetch.</p>
+
+<h3 id="keypath"><code>keyPath</code></h3>
+
+<p>The <code>keyPath</code> parameter determines where in the JSON structure the array of objects can be found.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p>Once configured, the collection fetcher is straightforward to use. It can only make one request at a time, but it can be reused. The request can be cancelled in mid-flight.</p>
+
+<pre><code>- (void)fetchCollectionWithSuccessBlock:(void (^)(NSArray *objects))successBlock failureBlock:(void (^)(NSError *error))failureBlock;
+- (void)cancelFetch;
+</code></pre>
+
+    </article>
+  </div>
+</div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <a href="" class="footer-title footer-link">Instant Cocoa</a>
+        <a href="https://github.com/khanlou/instantcocoa/blob/master/LICENSE" class="footer-license footer-link">MIT Licensed</a>
+        By
+        <a href="" class="footer-link">Soroush Khanlou</a>
+      </div>
+    </footer>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-61265657-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>
