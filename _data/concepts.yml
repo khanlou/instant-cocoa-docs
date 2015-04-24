@@ -9,4 +9,4 @@
 -
   title: Data Source
   description: "Comparing section and row indices is a thing of the past! The Data Source module helps you manage all your index path logic with ease. Remote data sources can download and map objects from your API. Multi Data Sources can keep track of several data sources and marshall all their objects for you, putting each data source into one section, or preserving the sections of each child data source."
-  url: false
+  url: /docs/instant-data-source

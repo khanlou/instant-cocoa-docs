@@ -1,14 +1,18 @@
-## Remote Data Sources
+---
+title: Remote Data Sources
+layout: doc
+category: Instant Data Source
+---
 
-`ICSimpleDataSource` and its partner, `ICPaginatedDataSource` are designed for fetching remote objects and mappping them. Neither has a special initializer.
+`ICSimpleDataSource` and its partner, `ICPaginatedDataSource`, are designed for fetching remote objects and mappping them. Neither has a special initializer.
 
-### `ICRemoteDataSource`
+## `ICRemoteDataSource`
 
 `ICRemoteDataSource` is the marriage of `ICCollectionFetcher` and the `<ICDataSource>` protocol. `ICRemoteDataSource` is configured similarly to `ICCollectionFetcher`.
 
-View the docs for [ICCollectionFetcher]() for the details on usage of `mappingClass`, `remoteConfiguration`, `queryParameters`, `apiPath`, and `keyPath`.
+View the docs for [`ICCollectionFetcher`](../instant-model/collection-fetcher) for the details on usage of `mappingClass`, `remoteConfiguration`, `queryParameters`, `apiPath`, and `keyPath`.
 
-#### Usage
+### Usage
 
 To fetch remote data, use the `-fetchData` method. This will kick off the network request. If you need to cancel the request in mid-flight, you can use the `-cancelFetch` method. You can query the state of the request with the `-isFetching` boolean.
 
@@ -26,7 +30,7 @@ Since everything stored in a data source must be an object, and since these obje
 
 The default value is `ICRemoteDataSourceShouldStoreLoadingPlaceholder | ICRemoteDataSourceShouldStoreNoResultsPlaceholder`.
 
-### `ICPaginatedDataSource`
+## `ICPaginatedDataSource`
 
 `ICPaginatedDataSource` is very similar to `ICRemoteDataSource`, but includes some extra functionality.
 
@@ -39,14 +43,14 @@ The `ICPaginatorKeys` class holds the names of the keys where information about 
 
 `ICPaginatedDataSource` allows you to read these values as it downloads new pages.
 
-	@property (nonatomic, assign, readonly) NSInteger pageSize;
-	@property (nonatomic, assign, readonly) NSInteger currentPage;
-	@property (nonatomic, assign, readonly) NSInteger numberOfPages;
-	@property (nonatomic, assign, readonly) NSInteger numberOfTotalResults;
+	@property (readonly) NSInteger pageSize;
+	@property (readonly) NSInteger currentPage;
+	@property (readonly) NSInteger numberOfPages;
+	@property (readonly) NSInteger numberOfTotalResults;
 
 `hasMorePages` is a read-only property that changes to `NO` as soon as it detects that a page has been fetched with no objects.
 
-	@property (nonatomic, assign, readonly) BOOL hasMorePages;
+	@property (readonly) BOOL hasMorePages;
 
 To fetch new pages, a method called `-fetchNextPage` is provided. When displaying objects in a table or collection view, you can call `-willDisplayObjectAtIndexPath:` which will call `-fetchNextPage` if it is the last object currently in the collection. These correspond to the `UITableView` delegate method
 

@@ -1,4 +1,8 @@
-## `ICSectionedDataSource`
+---
+title: Sectioned Data Source
+layout: doc
+category: Instant Data Source
+---
 
 `ICSectionedDataSource` is a data source that takes a stores objects broken into sections based on a key. It's initialized with an data source and a sectioning key:
 
@@ -16,7 +20,7 @@ The `-sectionTitles` property will hold, for each section, the value for the `se
 
 Calling `-numberOfObjectsInSection:` or `-objectAtIndexPath:` with invalid section or row values will result in an exception.
 
-### Sectioning by first character
+## Sectioning by first character
 
 Because a common use for sectioning is to divide objects into alphabetical sections, a category method on `NSString` is included with Instant Cocoa called `NSString+FirstCharacter`. This adds a method called `-firstCharacter` that returns a string containing the first composed character substring of the string (or nil, in the case of the empty string).
 

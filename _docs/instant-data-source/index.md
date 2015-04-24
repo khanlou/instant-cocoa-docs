@@ -1,14 +1,19 @@
-## Instant Data Source
+---
+title: Instant Data Source
+layout: doc
+permalink: /docs/instant-data-source/
+
+---
 
 Instant Cocoa provides an abstraction for storing objects behind index paths, for use in table and collection views. Instant Cocoa comes with several concrete implementations of data sources, and also provides a protocol for creating custom data sources.
 
-### The `ICDataSource` protocol
+## The `<ICDataSource>` protocol
 
 The Instant Cocoa Data Source protocol allows Instant Cocoa's table view controller to play nicely with Instant Cocoa's data sources. The protocol’s methods are enumerated below:
 
-#### Object access
+### Object access
 
-`ICDataSource` is designed to “fit” into `UITableView` and `UICollectionView` cleanly. Where `UITableViewDataSource` has methods like 
+`<ICDataSource>` is designed to “fit” into `UITableView` and `UICollectionView` cleanly. Where `UITableViewDataSource` has methods like 
 
 	- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 	- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -20,19 +25,19 @@ The Instant Cocoa Data Source protocol allows Instant Cocoa's table view control
 	- (NSUInteger)numberOfObjectsInSection:(NSUInteger)section;
 	- (id)objectAtIndexPath:(NSIndexPath*)indexPath;
 
-Providing access to the objects that it stores is the primary role of `ICDataSource` objects. `-objectAtIndexPath:` is undefined for index paths that are invalid. It may return nil and it may throw an exception, depending on the implementation.
+Providing access to the objects that it stores is the primary role of `<ICDataSource>` objects. `-objectAtIndexPath:` is undefined for index paths that are invalid. It may return nil and it may throw an exception, depending on the implementation.
 
 You can also do a reverse lookup, by using the object to get its index path:
 
- 	- (NSIndexPath *)indexPathForObject:(id)object;
+	- (NSIndexPath *)indexPathForObject:(id)object;
 
-#### Names
+### Names
 
 Each `<ICDataSource>` can have a name, using the `name` property. Instant Cocoa uses only uses this for determining the section titles for `ICMultiDataSource`. The `sectionTitles` array is also optional, but can be used to store data about each section.
 
-#### Asynchronicity
+### Asynchronicity
 
-Because some data sources, like `ICRemoteDataSource`, can’t access their data in a synchronous way, users of the data source will call `-fetchData` when they want  the fetch itself to occur, whether the fetch hits a network or a database. To inform its parent of its fetch status, data source objects have a delegate.
+Because some data sources, like [`ICRemoteDataSource`](remote-data-sources), can’t access their data in a synchronous way, users of the data source will call `-fetchData` when they want  the fetch itself to occur, whether the fetch hits a network or a database. To inform its parent of its fetch status, data source objects have a delegate.
 
 	@property (nonatomic, weak) id<ICDataSourceDelegate> delegate;
 
@@ -53,8 +58,8 @@ One of these finalizing methods is expected to be called each time `-fetchData` 
 
 Five concrete implementations of `<ICDataSource>` are included with Instant Cocoa:
 
-* `ICSimpleDataSource`, which is initialized with an array or objects and has one section.
-* `ICSectionedDataSource`, which is initialized with a `<ICDataSource>` and a sectioning key.
-* `ICRemoteDataSource`, which fetches remote objects, maps them, and presents them for display.
-* `ICPaginatedDataSource`, which fetches remote objects and automatically handles pagination.
-* `ICMultiDataSource`, which is initialized with an array of `<ICDataSource>` objects, and creates a section for each sub-data-source.
+* [`ICSimpleDataSource`](simple-data-source), which is initialized with an array or objects and has one section.
+* [`ICSectionedDataSource`](sectioned-data-source), which is initialized with a `<ICDataSource>` and a sectioning key.
+* [`ICRemoteDataSource`](remote-data-sources), which fetches remote objects, maps them, and presents them for display.
+* [`ICPaginatedDataSource`](remote-data-sources), which fetches remote objects and automatically handles pagination.
+* [`ICMultiDataSource`](multi-data-source), which is initialized with an array of `<ICDataSource>` objects, and creates a section for each sub-data-source.

@@ -1,4 +1,8 @@
-## `ICMultiDataSource`
+---
+title: Multi Data Source
+layout: doc
+category: Instant Data Source
+---
 
 `ICMultiDataSource` is a data source that allows you to combine multiple data sources in one. Each sub-data-source then becomes a section in the multi data source.
 

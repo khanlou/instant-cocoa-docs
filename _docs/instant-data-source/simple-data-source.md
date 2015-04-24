@@ -1,4 +1,8 @@
-## `ICSimpleDataSource`
+---
+title: Simple Data Source
+layout: doc
+category: Instant Data Source
+---
 
 `ICSimpleDataSource` is the most basic data source. It's initialized with an array:
 
@@ -6,18 +10,18 @@
 
 Once the data source is initialized with an array, its contents shouldn't change.
 
-### `-numberOfSections`
+## `-numberOfSections`
 
 This method will always return 1.
 
-### `-objectAtIndexPath:`
+## `-objectAtIndexPath:`
 
 Calling this method with an invalid index path will through an exception.
 
-### `-indexPathForObject:`
+## `-indexPathForObject:`
 
 Calling this method with an object that is not present in the collection will return `nil`.
 
-### `-fetchData`
+## `-fetchData`
 
 Calling this method will call the delegate methods `-dataSourceWillLoadData:` and `-dataSourceFinishedLoading:` in succession, synchronously, with no change to the underlying data.

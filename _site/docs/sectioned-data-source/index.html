@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Inflector</title>
+    <title>Sectioned Data Source</title>
 
     <meta name="description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
     <meta name="author"      content="Soroush Khanlou">
 
-    <meta property="og:site_name"   content="Inflector">
-    <meta property="og:title"       content="Inflector">
+    <meta property="og:site_name"   content="Sectioned Data Source">
+    <meta property="og:title"       content="Sectioned Data Source">
     <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
     <meta property="og:image"       content="/images/logos/x-large.png">
 
@@ -19,7 +19,7 @@
 
     <link rel="stylesheet" href="/css/style.min.css">
 
-    <link rel="canonical" href="http://instantcocoa.io/docs/inflector/">
+    <link rel="canonical" href="http://instantcocoa.io/docs/sectioned-data-source/">
     <link rel="alternate" href="http://instantcocoa.io/feed.xml" type="application/rss+xml" title="Instant Cocoa">
 
     <script src="//use.typekit.net/sec7fxd.js"></script>
@@ -140,75 +140,39 @@
     <article class="docs-article article">
       <h1 class="doc-title">
         
-        Instant
-        
 
-        Inflector
+        Sectioned Data Source
       </h1>
-      <p>In addition to the singularization and pluralization provided by <a href="https://github.com/mattt/InflectorKit">InflectorKit</a>, Instant Cocoa also provides a class for quickly manipulating strings for use by the runtime.</p>
+      <p><code>ICSectionedDataSource</code> is a data source that takes a stores objects broken into sections based on a key. It’s initialized with an data source and a sectioning key:</p>
 
-<h2 id="the-inflector">The Inflector</h2>
-
-<p>Instant Cocoa’s powerful <a href="../instant-model/reflection">introspection and reflection</a> capabilities are reliant on the ability to generate strings of specific formats easily. The <code>ICInflector</code> class provides that capability.</p>
-
-<h3 id="prefixes">Prefixes</h3>
-
-<p>Classes in Objective-C are usually prefixed with a 2 or 3 letter code representing the author of the class. <code>ICInflector</code> includes the capability of automatically stripping these class prefixes so that meaningful information can be extracted from the class name.</p>
-
-<p>Instant Cocoa automatically includes the prefixes <code>IC</code> and <code>NS</code>.  You can add your own prefixes to the <code>sharedInflector</code>:</p>
-
-<pre><code>[[ICInflector sharedInflector] addPrefixes:[NSSet setWithObject:@"SK"]];
+<pre><code>- (instancetype)initWithDataSource:(id&lt;ICDataSource&gt;)dataSource sectioningKey:(NSString *)sectioningKey sortDescriptors:(NSArray *)sortDescriptors;
 </code></pre>
 
-<h3 id="property-name-transformation">Property name transformation</h3>
+<p>Initialization with a data source allows for more flexibility. If you already have the objects that will be sectioned, you can turn those into a <a href="">simple data source</a> and initialize with that. If the objects come from a <a href="">remote data source</a>, or from Core Data, you can also use those data sources, pass them into this data source, and have them be automatically sectioned.</p>
 
-<p>An <code>@property</code> in Objective-C is usually <code>llamaCased</code>, meaning that the first letter of the first word is lowercased, and the first letter of every other word is capitalized. When retrieving from JSON, key names are usually <code>snake_cased</code>, meaning that they are lowercase, and joined by underscores.</p>
+<p>Note: the sectioned data source is required to be the delegate of the wrapped data source. It needs to know when data changes so that it can re-section itself and inform its own delegate.</p>
 
-<p>For display and in other cases, these names have to be transformed to different types. These types include:</p>
+<p>The <code>sectioningKey</code> is fetched with <code>-valueForKeyPath:</code> and so may include dots and nested keys.</p>
 
-<ul>
-  <li>CamelCase: The first word of each component is capitalized.</li>
-  <li>llamaCase: The first word is lowercase, but each other component is capitalized</li>
-  <li>snake_case: All words are lowercased, and joined by underscores</li>
-  <li>train-case: All words are lowercased, and joined by hyphens</li>
-</ul>
+<p>To perform the sectioning, call <code>-fetchData</code> on the sectioned data source. This will call <code>-fetchData</code> on its wrapped data source. When the <code>-dataSourceFinishedLoading:</code> delegate callback is fired, <code>ICSectionedDataSource</code> will get all the objects from the wrapped data source, sort them, and section them. The sectioning logic can be found in <code>NSArray+Sectioning</code>, although this will probably move to its own class soon.</p>
 
-<p>Abbreviations, such a “URL” in <code>aURLProperty</code>, are automatically intuited. <code>aURLProperty</code> would be transformed to, in snake_case, <code>a_url_property</code>. In a near-future version of Instant Cocoa, you will be required to register such abbreviations explicitly, and common abbreviations, like “URL”, will be pre-registered.</p>
+<p>The <code>-sectionTitles</code> property will hold, for each section, the value for the <code>sectioningKey</code> of the first object in the section.</p>
 
-<p>You can take advantage of these transformations by calling the appropriate method on <code>ICInflector</code>:</p>
+<p>Calling <code>-numberOfObjectsInSection:</code> or <code>-objectAtIndexPath:</code> with invalid section or row values will result in an exception.</p>
 
-<pre><code>[ICInflector sharedInflector] camelCasedString:myString];
+<h2 id="sectioning-by-first-character">Sectioning by first character</h2>
+
+<p>Because a common use for sectioning is to divide objects into alphabetical sections, a category method on <code>NSString</code> is included with Instant Cocoa called <code>NSString+FirstCharacter</code>. This adds a method called <code>-firstCharacter</code> that returns a string containing the first composed character substring of the string (or nil, in the case of the empty string).</p>
+
+<p>This allows you to easily use it in the <code>sectioningKey</code> like so:</p>
+
+<pre><code>NSArray *sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:NO];
+[[ICSectionedDataSource alloc] initWithDataSource:backingDataSource
+                                    sectioningKey:@"name.firstCharacter"
+                                  sortDescriptors:sortDescriptors];
 </code></pre>
 
-<p>A category is also provided, for convenience:</p>
-
-<pre><code>[myString camelCasedString];
-</code></pre>
-
-<h3 id="pluralization">Pluralization</h3>
-
-<p>Pluralization and singularization is powered by <a href="https://github.com/mattt/InflectorKit">InflectorKit</a>. It can be invoked as a category on <code>NSString</code>:</p>
-
-<pre><code>[myString singularizedString];
-[myString pluralizedString];
-</code></pre>
-
-<p>See the documentation for that library for adding custom pluralizations.</p>
-
-<h3 id="selector-generation">Selector Generation</h3>
-
-<p>One common use of the inflector is to generate selectors from strings. <code>ICInflector</code> provides a method to do that.</p>
-
-<pre><code>- (SEL)selectorWithPrefix:(NSString*)prefix propertyName:(NSString*)propertyName suffix:(NSString*)suffix;
-</code></pre>
-
-<p>To generate a setter from a property name, for example, you could call</p>
-
-<pre><code>[[ICInflector sharedInflector] selectorWithPrefix:@"set" propertyName:propertyName suffix:@“:”];
-</code></pre>
-
-<p><code>ICInflector</code> will automatically handle all of the casing requirements for generating such selectors.</p>
-
+<p>There are tests that confirm this behavior.</p>
 
     </article>
   </div>

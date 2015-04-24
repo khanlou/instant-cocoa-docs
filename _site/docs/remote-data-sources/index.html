@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Inflector</title>
+    <title>Remote Data Sources</title>
 
     <meta name="description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
     <meta name="author"      content="Soroush Khanlou">
 
-    <meta property="og:site_name"   content="Inflector">
-    <meta property="og:title"       content="Inflector">
+    <meta property="og:site_name"   content="Remote Data Sources">
+    <meta property="og:title"       content="Remote Data Sources">
     <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
     <meta property="og:image"       content="/images/logos/x-large.png">
 
@@ -19,7 +19,7 @@
 
     <link rel="stylesheet" href="/css/style.min.css">
 
-    <link rel="canonical" href="http://instantcocoa.io/docs/inflector/">
+    <link rel="canonical" href="http://instantcocoa.io/docs/remote-data-sources/">
     <link rel="alternate" href="http://instantcocoa.io/feed.xml" type="application/rss+xml" title="Instant Cocoa">
 
     <script src="//use.typekit.net/sec7fxd.js"></script>
@@ -140,74 +140,71 @@
     <article class="docs-article article">
       <h1 class="doc-title">
         
-        Instant
-        
 
-        Inflector
+        Remote Data Sources
       </h1>
-      <p>In addition to the singularization and pluralization provided by <a href="https://github.com/mattt/InflectorKit">InflectorKit</a>, Instant Cocoa also provides a class for quickly manipulating strings for use by the runtime.</p>
+      <p><code>ICSimpleDataSource</code> and its partner, <code>ICPaginatedDataSource</code>, are designed for fetching remote objects and mappping them. Neither has a special initializer.</p>
 
-<h2 id="the-inflector">The Inflector</h2>
+<h2 id="icremotedatasource"><code>ICRemoteDataSource</code></h2>
 
-<p>Instant Cocoa’s powerful <a href="../instant-model/reflection">introspection and reflection</a> capabilities are reliant on the ability to generate strings of specific formats easily. The <code>ICInflector</code> class provides that capability.</p>
+<p><code>ICRemoteDataSource</code> is the marriage of <code>ICCollectionFetcher</code> and the <code>&lt;ICDataSource&gt;</code> protocol. <code>ICRemoteDataSource</code> is configured similarly to <code>ICCollectionFetcher</code>.</p>
 
-<h3 id="prefixes">Prefixes</h3>
+<p>View the docs for <a href="../instant-model/collection-fetcher"><code>ICCollectionFetcher</code></a> for the details on usage of <code>mappingClass</code>, <code>remoteConfiguration</code>, <code>queryParameters</code>, <code>apiPath</code>, and <code>keyPath</code>.</p>
 
-<p>Classes in Objective-C are usually prefixed with a 2 or 3 letter code representing the author of the class. <code>ICInflector</code> includes the capability of automatically stripping these class prefixes so that meaningful information can be extracted from the class name.</p>
+<h3 id="usage">Usage</h3>
 
-<p>Instant Cocoa automatically includes the prefixes <code>IC</code> and <code>NS</code>.  You can add your own prefixes to the <code>sharedInflector</code>:</p>
+<p>To fetch remote data, use the <code>-fetchData</code> method. This will kick off the network request. If you need to cancel the request in mid-flight, you can use the <code>-cancelFetch</code> method. You can query the state of the request with the <code>-isFetching</code> boolean.</p>
 
-<pre><code>[[ICInflector sharedInflector] addPrefixes:[NSSet setWithObject:@"SK"]];
+<h4 id="placeholders">Placeholders</h4>
+
+<p>Since everything stored in a data source must be an object, and since these objects usually represent table rows or collection view items, Instant Cocoa uses placeholder objects to represent rows that would normally display an activity indicator or a “No results” label. These classes for these objects are <code>ICLoadingPlaceholder</code> and <code>ICNoResultsPlaceholder</code> respectively. Errors can also be stored in remote and paginated data sources.</p>
+
+<p><code>ICRemoteDataSource</code> and <code>ICPaginatedDataSource</code> have options for whether or not to store these placeholders. <code>placeholderStorageOptions</code> is a bitwise property that can hold any combination of three options:</p>
+
+<pre><code>typedef NS_ENUM(NSUInteger, ICRemoteDataSourceStorage) {
+	ICRemoteDataSourceShouldStoreLoadingPlaceholder = 1 &lt;&lt; 1,
+	ICRemoteDataSourceShouldStoreNoResultsPlaceholder = 1 &lt;&lt; 2,
+	ICRemoteDataSourceShouldStoreErrors = 1 &lt;&lt; 3,
+};
 </code></pre>
 
-<h3 id="property-name-transformation">Property name transformation</h3>
+<p>The default value is <code>ICRemoteDataSourceShouldStoreLoadingPlaceholder | ICRemoteDataSourceShouldStoreNoResultsPlaceholder</code>.</p>
 
-<p>An <code>@property</code> in Objective-C is usually <code>llamaCased</code>, meaning that the first letter of the first word is lowercased, and the first letter of every other word is capitalized. When retrieving from JSON, key names are usually <code>snake_cased</code>, meaning that they are lowercase, and joined by underscores.</p>
+<h2 id="icpaginateddatasource"><code>ICPaginatedDataSource</code></h2>
 
-<p>For display and in other cases, these names have to be transformed to different types. These types include:</p>
+<p><code>ICPaginatedDataSource</code> is very similar to <code>ICRemoteDataSource</code>, but includes some extra functionality.</p>
+
+<p>The <code>ICPaginatorKeys</code> class holds the names of the keys where information about <code>pageSize</code>, <code>currentPage</code>, <code>numberOfPages</code>, and <code>numberOfTotalObjects</code> can be held. The default values for these are:</p>
 
 <ul>
-  <li>CamelCase: The first word of each component is capitalized.</li>
-  <li>llamaCase: The first word is lowercase, but each other component is capitalized</li>
-  <li>snake_case: All words are lowercased, and joined by underscores</li>
-  <li>train-case: All words are lowercased, and joined by hyphens</li>
+  <li><code>pageSize</code>: <code>@"page_size"</code></li>
+  <li><code>currentPage</code>: <code>@"page"</code></li>
+  <li><code>numberOfPages</code>: <code>@"number_of_pages"</code></li>
+  <li><code>numberOfTotalObjects</code>: <code>@"total_count"</code></li>
 </ul>
 
-<p>Abbreviations, such a “URL” in <code>aURLProperty</code>, are automatically intuited. <code>aURLProperty</code> would be transformed to, in snake_case, <code>a_url_property</code>. In a near-future version of Instant Cocoa, you will be required to register such abbreviations explicitly, and common abbreviations, like “URL”, will be pre-registered.</p>
+<p><code>ICPaginatedDataSource</code> allows you to read these values as it downloads new pages.</p>
 
-<p>You can take advantage of these transformations by calling the appropriate method on <code>ICInflector</code>:</p>
-
-<pre><code>[ICInflector sharedInflector] camelCasedString:myString];
+<pre><code>@property (readonly) NSInteger pageSize;
+@property (readonly) NSInteger currentPage;
+@property (readonly) NSInteger numberOfPages;
+@property (readonly) NSInteger numberOfTotalResults;
 </code></pre>
 
-<p>A category is also provided, for convenience:</p>
+<p><code>hasMorePages</code> is a read-only property that changes to <code>NO</code> as soon as it detects that a page has been fetched with no objects.</p>
 
-<pre><code>[myString camelCasedString];
+<pre><code>@property (readonly) BOOL hasMorePages;
 </code></pre>
 
-<h3 id="pluralization">Pluralization</h3>
+<p>To fetch new pages, a method called <code>-fetchNextPage</code> is provided. When displaying objects in a table or collection view, you can call <code>-willDisplayObjectAtIndexPath:</code> which will call <code>-fetchNextPage</code> if it is the last object currently in the collection. These correspond to the <code>UITableView</code> delegate method</p>
 
-<p>Pluralization and singularization is powered by <a href="https://github.com/mattt/InflectorKit">InflectorKit</a>. It can be invoked as a category on <code>NSString</code>:</p>
-
-<pre><code>[myString singularizedString];
-[myString pluralizedString];
+<pre><code>- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 </code></pre>
 
-<p>See the documentation for that library for adding custom pluralizations.</p>
+<p>and the <code>UICollectionView</code> delegate method</p>
 
-<h3 id="selector-generation">Selector Generation</h3>
-
-<p>One common use of the inflector is to generate selectors from strings. <code>ICInflector</code> provides a method to do that.</p>
-
-<pre><code>- (SEL)selectorWithPrefix:(NSString*)prefix propertyName:(NSString*)propertyName suffix:(NSString*)suffix;
+<pre><code>- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 </code></pre>
-
-<p>To generate a setter from a property name, for example, you could call</p>
-
-<pre><code>[[ICInflector sharedInflector] selectorWithPrefix:@"set" propertyName:propertyName suffix:@“:”];
-</code></pre>
-
-<p><code>ICInflector</code> will automatically handle all of the casing requirements for generating such selectors.</p>
 
 
     </article>
