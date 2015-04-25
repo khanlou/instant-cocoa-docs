@@ -2,6 +2,7 @@
 title: Simple Data Source
 layout: doc
 category: Instant Data Source
+permalink: /docs/instant-data-source/simple-data-source/
 ---
 
 `ICSimpleDataSource` is the most basic data source. It's initialized with an array:

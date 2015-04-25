@@ -2,8 +2,8 @@
 title: Protocols
 layout: doc
 category: Instant Model
+permalink: /docs/instant-model/protocols/
 ---
-
 
 Instant Model's protocols provide flexibility when creating your model objects. Conforming to them will allow objects that don't subclass `ICModel` to continue to work with the rest of Instant Cocoa's infrastructure.
 

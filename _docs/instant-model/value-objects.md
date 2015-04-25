@@ -2,8 +2,8 @@
 title: Value Objects
 layout: doc
 category: Instant Model
+permalink: /docs/instant-model/value-objects/
 ---
-
 
 While entities (like ICModel) are objects that have an important sense of identity (such as an `objectID`), value objects also live in the model layer, but they don't have that same sense of identity. The only important thing about a value object is what value it contains; it's otherwise interchangeable.
 

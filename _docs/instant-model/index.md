@@ -4,7 +4,6 @@ layout: doc
 permalink: /docs/instant-model/
 ---
 
-
 Instant Model provides a rich model layer for your app. It handles reflection, JSON mapping, networking, `NSCoding` serialization, and value objects.
 
 ## Protocols

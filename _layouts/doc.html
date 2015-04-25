@@ -23,7 +23,7 @@ layout: default
             {% assign docs = site.docs | where: "category", category.title %}
             {% for doc in docs %}
             <li>
-              <a href="{{ doc.url | prepend: site.baseurl }}" class="post-link link">{{ doc.title }}</a>
+              <a href="{{ doc.permalink | prepend: site.baseurl }}" class="post-link link">{{ doc.title }}</a>
             </li>
             {% endfor %}
           </ul>

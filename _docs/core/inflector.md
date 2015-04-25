@@ -2,8 +2,8 @@
 title: Inflector
 layout: doc
 category: Core
+permalink: /docs/core/inflector/
 ---
-
 
 In addition to the singularization and pluralization provided by [InflectorKit](https://github.com/mattt/InflectorKit), Instant Cocoa also provides a class for quickly manipulating strings for use by the runtime.
 

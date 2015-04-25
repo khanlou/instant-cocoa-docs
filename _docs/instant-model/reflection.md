@@ -2,8 +2,8 @@
 title: Reflection
 layout: doc
 category: Instant Model
+permalink: /docs/instant-model/reflection/
 ---
-
 
 Many of Instant Cocoa's capabilities come from the ability to inspect a class's properties at runtime. Classes that are *inspectable* conform to the `ICInspectable` protocol, which contains only one method.
 

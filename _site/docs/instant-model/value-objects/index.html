@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Simple Data Source</title>
+    <title>Value Objects</title>
 
     <meta name="description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
     <meta name="author"      content="Soroush Khanlou">
 
-    <meta property="og:site_name"   content="Simple Data Source">
-    <meta property="og:title"       content="Simple Data Source">
+    <meta property="og:site_name"   content="Value Objects">
+    <meta property="og:title"       content="Value Objects">
     <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
     <meta property="og:image"       content="/images/logos/x-large.png">
 
@@ -19,7 +19,7 @@
 
     <link rel="stylesheet" href="/css/style.min.css">
 
-    <link rel="canonical" href="http://instantcocoa.io/docs/simple-data-source/">
+    <link rel="canonical" href="http://instantcocoa.io/docs/instant-model/value-objects/">
     <link rel="alternate" href="http://instantcocoa.io/feed.xml" type="application/rss+xml" title="Instant Cocoa">
 
     <script src="//use.typekit.net/sec7fxd.js"></script>
@@ -58,11 +58,11 @@
             
             
             <li>
-              <a href="/docs/inflector/" class="post-link link">Inflector</a>
+              <a href="/docs/core/inflector/" class="post-link link">Inflector</a>
             </li>
             
             <li>
-              <a href="/docs/router/" class="post-link link">Router</a>
+              <a href="/docs/core/router/" class="post-link link">Router</a>
             </li>
             
           </ul>
@@ -77,31 +77,31 @@
             
             
             <li>
-              <a href="/docs/collection-fetcher/" class="post-link link">Collection Fetcher</a>
+              <a href="/docs/instant-model/collection-fetcher/" class="post-link link">Collection Fetcher</a>
             </li>
             
             <li>
-              <a href="/docs/mapping/" class="post-link link">Mapping</a>
+              <a href="/docs/instant-model/mapping/" class="post-link link">Mapping</a>
             </li>
             
             <li>
-              <a href="/docs/protocols/" class="post-link link">Protocols</a>
+              <a href="/docs/instant-model/protocols/" class="post-link link">Protocols</a>
             </li>
             
             <li>
-              <a href="/docs/reflection/" class="post-link link">Reflection</a>
+              <a href="/docs/instant-model/reflection/" class="post-link link">Reflection</a>
             </li>
             
             <li>
-              <a href="/docs/resource-gateway/" class="post-link link">Resource Gateway</a>
+              <a href="/docs/instant-model/resource-gateway/" class="post-link link">Resource Gateway</a>
             </li>
             
             <li>
-              <a href="/docs/serializers/" class="post-link link">Serializers</a>
+              <a href="/docs/instant-model/serializers/" class="post-link link">Serializers</a>
             </li>
             
             <li>
-              <a href="/docs/value-objects/" class="post-link link">Value Objects</a>
+              <a href="/docs/instant-model/value-objects/" class="post-link link">Value Objects</a>
             </li>
             
           </ul>
@@ -116,19 +116,19 @@
             
             
             <li>
-              <a href="/docs/multi-data-source/" class="post-link link">Multi Data Source</a>
+              <a href="/docs/instant-data-source/multi-data-source/" class="post-link link">Multi Data Source</a>
             </li>
             
             <li>
-              <a href="/docs/remote-data-sources/" class="post-link link">Remote Data Sources</a>
+              <a href="/docs/instant-data-source/remote-data-sources/" class="post-link link">Remote Data Sources</a>
             </li>
             
             <li>
-              <a href="/docs/sectioned-data-source/" class="post-link link">Sectioned Data Source</a>
+              <a href="/docs/instant-data-source/sectioned-data-source/" class="post-link link">Sectioned Data Source</a>
             </li>
             
             <li>
-              <a href="/docs/simple-data-source/" class="post-link link">Simple Data Source</a>
+              <a href="/docs/instant-data-source/simple-data-source/" class="post-link link">Simple Data Source</a>
             </li>
             
           </ul>
@@ -141,30 +141,41 @@
       <h1 class="doc-title">
         
 
-        Simple Data Source
+        Value Objects
       </h1>
-      <p><code>ICSimpleDataSource</code> is the most basic data source. It’s initialized with an array:</p>
+      <p>While entities (like ICModel) are objects that have an important sense of identity (such as an <code>objectID</code>), value objects also live in the model layer, but they don’t have that same sense of identity. The only important thing about a value object is what value it contains; it’s otherwise interchangeable.</p>
 
-<pre><code>- (instancetype)initWithObjects:(NSArray*)objects;
+<p>A very practical way of looking at it is that value objects don’t get their own row in a database, they usually get represented in a single field of some other object’s row.</p>
+
+<h2 id="protocol">Protocol</h2>
+
+<p>Instant Cocoa provides a protocol for value objects, called <code>ICValueObject</code>.</p>
+
+<p>The backing object is normally a string or a number (since those are the primary value types in JSON), but it can be backed with anything. The only required methods in the <code>ICValueObject</code> protocol are:</p>
+
+<pre><code>- (instancetype)initWithBackingObject:(id)backingObject;
+
+@property (nonatomic, readonly) id backingObject;
 </code></pre>
 
-<p>Once the data source is initialized with an array, its contents shouldn’t change.</p>
+<h3 id="optional-methods">Optional Methods</h3>
 
-<h2 id="numberofsections"><code>-numberOfSections</code></h2>
+<p>The <code>ICValueObject</code> protocol also includes two optional methods:</p>
 
-<p>This method will always return 1.</p>
+<pre><code>- (instancetype)initWithString:(NSString *)string;
+- (instancetype)initWithNumber:(NSNumber *)number;
+</code></pre>
 
-<h2 id="objectatindexpath"><code>-objectAtIndexPath:</code></h2>
+<p>These provide a little extra type information when reading, and Instant Cocoa will reflect on the <code>backingObject</code>’s type, and use the appropriate one if it is available.</p>
 
-<p>Calling this method with an invalid index path will through an exception.</p>
+<h2 id="concrete-implementation">Concrete Implementation</h2>
 
-<h2 id="indexpathforobject"><code>-indexPathForObject:</code></h2>
+<p>Instant Cocoa also includes a concrete implmentation of the <code>ICValueObject</code> protocol, in a class also named <code>ICValueObject</code>.</p>
 
-<p>Calling this method with an object that is not present in the collection will return <code>nil</code>.</p>
+<p>The <code>ICValueObject</code> class conforms to the <code>ICValueObject</code> protocol, and can easily be subclassed to make quick value objects.</p>
 
-<h2 id="fetchdata"><code>-fetchData</code></h2>
+<p>It implements <code>-copyWithZone:</code>, <code>-hash</code>, <code>-compare</code>, <code>-isEqual</code>, and <code>-description</code>.</p>
 
-<p>Calling this method will call the delegate methods <code>-dataSourceWillLoadData:</code> and <code>-dataSourceFinishedLoading:</code> in succession, synchronously, with no change to the underlying data.</p>
 
     </article>
   </div>

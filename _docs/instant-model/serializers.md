@@ -2,8 +2,8 @@
 title: Serializers
 layout: doc
 category: Instant Model
+permalink: /docs/instant-model/serializers/
 ---
-
 
 Instant Cocoa uses Serializers to transform string values into Foundation types, like `NSDate` and `NSURL`, which are used during [mapping](instant-model/mapping/).
 

@@ -449,6 +449,19 @@ $btn-padding: 18px;
       + li { margin: 0 0 0 $gutter; }
     }
   }
+
+  @media (max-width: 620px) {
+    &-list-primary > li {
+      &,
+      + li {
+        margin: 0 $gutter $gutter 0;
+      }
+
+      &:nth-child(odd) {
+        clear: left;
+      }
+    }
+  }
 }
 
 .docs-article { overflow: hidden; }

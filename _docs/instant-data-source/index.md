@@ -2,7 +2,6 @@
 title: Instant Data Source
 layout: doc
 permalink: /docs/instant-data-source/
-
 ---
 
 Instant Cocoa provides an abstraction for storing objects behind index paths, for use in table and collection views. Instant Cocoa comes with several concrete implementations of data sources, and also provides a protocol for creating custom data sources.
@@ -13,7 +12,7 @@ The Instant Cocoa Data Source protocol allows Instant Cocoa's table view control
 
 ### Object access
 
-`<ICDataSource>` is designed to “fit” into `UITableView` and `UICollectionView` cleanly. Where `UITableViewDataSource` has methods like 
+`<ICDataSource>` is designed to “fit” into `UITableView` and `UICollectionView` cleanly. Where `UITableViewDataSource` has methods like
 
 	- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 	- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

@@ -2,8 +2,8 @@
 title: Resource Gateway
 layout: doc
 category: Instant Model
+permalink: /docs/instant-model/resource-gateway/
 ---
-
 
 Model objects live locally as well as remotely. Instant Cocoa has affordances for manipulating objects remotely.
 

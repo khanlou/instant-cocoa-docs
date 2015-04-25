@@ -2,6 +2,7 @@
 title: Sectioned Data Source
 layout: doc
 category: Instant Data Source
+permalink: /docs/instant-data-source/sectioned-data-source/
 ---
 
 `ICSectionedDataSource` is a data source that takes a stores objects broken into sections based on a key. It's initialized with an data source and a sectioning key:

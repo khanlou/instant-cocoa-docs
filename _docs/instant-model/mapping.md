@@ -2,8 +2,8 @@
 title: Mapping
 layout: doc
 category: Instant Model
+permalink: /docs/instant-model/mapping/
 ---
-
 
 Mapping to and from JSON is central to working with resources with a remote component. Instant Cocoa can apply attributes from a JSON object to a local domain object.
 

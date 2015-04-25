@@ -2,8 +2,8 @@
 title: Collection Fetcher
 layout: doc
 category: Instant Model
+permalink: /docs/instant-model/collection-fetcher/
 ---
-
 
 Some REST endpoints represent a collection of resources. Instant Cocoa has an affordance for downloading and mapping an array of remote objects, called `ICCollectionFetcher`. `ICCollectionFetcher` provides the core of `ICRemoteDataSource` and `ICPaginatedDataSource`.
 

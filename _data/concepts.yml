@@ -1,12 +1,12 @@
 -
   title: Router
   description: "When push notifications and x-callback-urls come in, having a dedicated way to handle your URL schemas is a life-saver. Instant Router lets you register routes and automatically handles view controller allocation and presentation, so you can get back to making the stuff in your app that you care about."
-  url: /docs/router
+  url: /docs/core/router/
 -
   title: Model
   description: "Instant Cocoa provides a rich model framework for representing your domain in memory. It can flexibly map JSON objects from an API, and perform API actions on each of your domain objects. Features such as Serializers and Value Objects let you write less code and more effectively model your business logic."
-  url: /docs/instant-model
+  url: /docs/instant-model/
 -
   title: Data Source
   description: "Comparing section and row indices is a thing of the past! The Data Source module helps you manage all your index path logic with ease. Remote data sources can download and map objects from your API. Multi Data Sources can keep track of several data sources and marshall all their objects for you, putting each data source into one section, or preserving the sections of each child data source."
-  url: /docs/instant-data-source
+  url: /docs/instant-data-source/

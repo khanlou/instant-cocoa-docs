@@ -2,8 +2,8 @@
 title: Router
 layout: doc
 category: Core
+permalink: /docs/core/router/
 ---
-
 
 Instant Cocoa's Router allows you to easily map a URL or path to a specific view controller or set of view controllers.
 

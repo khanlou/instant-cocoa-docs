@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Multi Data Source</title>
+    <title>Serializers</title>
 
     <meta name="description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
     <meta name="author"      content="Soroush Khanlou">
 
-    <meta property="og:site_name"   content="Multi Data Source">
-    <meta property="og:title"       content="Multi Data Source">
+    <meta property="og:site_name"   content="Serializers">
+    <meta property="og:title"       content="Serializers">
     <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
     <meta property="og:image"       content="/images/logos/x-large.png">
 
@@ -19,7 +19,7 @@
 
     <link rel="stylesheet" href="/css/style.min.css">
 
-    <link rel="canonical" href="http://instantcocoa.io/docs/multi-data-source/">
+    <link rel="canonical" href="http://instantcocoa.io/docs/instant-model/serializers/">
     <link rel="alternate" href="http://instantcocoa.io/feed.xml" type="application/rss+xml" title="Instant Cocoa">
 
     <script src="//use.typekit.net/sec7fxd.js"></script>
@@ -58,11 +58,11 @@
             
             
             <li>
-              <a href="/docs/inflector/" class="post-link link">Inflector</a>
+              <a href="/docs/core/inflector/" class="post-link link">Inflector</a>
             </li>
             
             <li>
-              <a href="/docs/router/" class="post-link link">Router</a>
+              <a href="/docs/core/router/" class="post-link link">Router</a>
             </li>
             
           </ul>
@@ -77,31 +77,31 @@
             
             
             <li>
-              <a href="/docs/collection-fetcher/" class="post-link link">Collection Fetcher</a>
+              <a href="/docs/instant-model/collection-fetcher/" class="post-link link">Collection Fetcher</a>
             </li>
             
             <li>
-              <a href="/docs/mapping/" class="post-link link">Mapping</a>
+              <a href="/docs/instant-model/mapping/" class="post-link link">Mapping</a>
             </li>
             
             <li>
-              <a href="/docs/protocols/" class="post-link link">Protocols</a>
+              <a href="/docs/instant-model/protocols/" class="post-link link">Protocols</a>
             </li>
             
             <li>
-              <a href="/docs/reflection/" class="post-link link">Reflection</a>
+              <a href="/docs/instant-model/reflection/" class="post-link link">Reflection</a>
             </li>
             
             <li>
-              <a href="/docs/resource-gateway/" class="post-link link">Resource Gateway</a>
+              <a href="/docs/instant-model/resource-gateway/" class="post-link link">Resource Gateway</a>
             </li>
             
             <li>
-              <a href="/docs/serializers/" class="post-link link">Serializers</a>
+              <a href="/docs/instant-model/serializers/" class="post-link link">Serializers</a>
             </li>
             
             <li>
-              <a href="/docs/value-objects/" class="post-link link">Value Objects</a>
+              <a href="/docs/instant-model/value-objects/" class="post-link link">Value Objects</a>
             </li>
             
           </ul>
@@ -116,19 +116,19 @@
             
             
             <li>
-              <a href="/docs/multi-data-source/" class="post-link link">Multi Data Source</a>
+              <a href="/docs/instant-data-source/multi-data-source/" class="post-link link">Multi Data Source</a>
             </li>
             
             <li>
-              <a href="/docs/remote-data-sources/" class="post-link link">Remote Data Sources</a>
+              <a href="/docs/instant-data-source/remote-data-sources/" class="post-link link">Remote Data Sources</a>
             </li>
             
             <li>
-              <a href="/docs/sectioned-data-source/" class="post-link link">Sectioned Data Source</a>
+              <a href="/docs/instant-data-source/sectioned-data-source/" class="post-link link">Sectioned Data Source</a>
             </li>
             
             <li>
-              <a href="/docs/simple-data-source/" class="post-link link">Simple Data Source</a>
+              <a href="/docs/instant-data-source/simple-data-source/" class="post-link link">Simple Data Source</a>
             </li>
             
           </ul>
@@ -141,24 +141,22 @@
       <h1 class="doc-title">
         
 
-        Multi Data Source
+        Serializers
       </h1>
-      <p><code>ICMultiDataSource</code> is a data source that allows you to combine multiple data sources in one. Each sub-data-source then becomes a section in the multi data source.</p>
+      <p>Instant Cocoa uses Serializers to transform string values into Foundation types, like <code>NSDate</code> and <code>NSURL</code>, which are used during <a href="instant-model/mapping/">mapping</a>.</p>
 
-<p>It’s initialized with an array of <code>&lt;ICDataSource</code>&gt; objects:</p>
+<p>A serializer is an object that conforms to the <code>ICSerializer</code> protocol, which contains two methods:</p>
 
-<pre><code>- (instancetype)initWithDataSources:(NSArray *)dataSources;
+<pre><code>- (NSString*)serializedObject:(id)object;
+- (id)deserializedObjectFromString:(NSString*)stringRepresentation;
 </code></pre>
 
-<p>The multi data source should be the delegate of all of its children.</p>
+<p>A serializer for a particular property may be specified with a method in the form <code>- (id&lt;ICSerializer&gt;) serializerFor&lt;propertyName&gt;</code>. For instance, if the property is called <code>createdDate</code>, the method to defined a serializer for that property would be <code>-serializerForCreatedDate</code>. Dictionary and JSON mappings will use that serializer to deserialize values for that property.</p>
 
-<p>Calling <code>-fetchData</code> on this data source will call <code>-fetchData</code> on all of its children. Because some of those child data sources may be asynchronous, <code>ICMultiDataSource</code> will keep track of all the responses.</p>
+<p>Instant Cocoa also will currently implicitly use serializers if the correct class is defined. If a serializer exists with the format <code>&lt;Prefix&gt;&lt;TargetClassSansPrefix&gt;Serializer</code>, it will automatically be used. For example, for <code>NSURL</code>, the <code>NS</code> will be removed, leaving <code>URL</code>, and the existence of following classes will be checked: <code>ICURLSerializer</code>, <code>NSURLSerializer</code>, and serializers for any custom prefixes that have been added. If any of those classes exist, that serializer will be allocated and used automatically. <em>This is probably going away soon, since it’s implicit nature makes it hard to predict. It will be replaced with an explicit registration model.</em></p>
 
-<p>As a child’s response comes in (either success or failure), the data source folds the objects from the child into its own objects, and calls <code>-dataSourceDidPartiallyLoad:</code>. When all of the children have responded, the multi data source calls <code>-dataSourceFinishedLoading:</code>.</p>
+<p>Instant Cocoa ships with serializers for Dates and URLs, but serializers can easily be written for other classes, like <code>UIColor</code>.</p>
 
-<p>There is an option to <code>preserveSectionsInSubDataSources</code>. Setting this to <code>YES</code> will ensure that any sections of child data sources will be preserved.</p>
-
-<p>The section titles will also be drawn from the child data sources.</p>
 
     </article>
   </div>

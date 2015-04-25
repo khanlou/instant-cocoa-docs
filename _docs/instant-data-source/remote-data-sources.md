@@ -2,6 +2,7 @@
 title: Remote Data Sources
 layout: doc
 category: Instant Data Source
+permalink: /docs/instant-data-source/remote-data-sources/
 ---
 
 `ICSimpleDataSource` and its partner, `ICPaginatedDataSource`, are designed for fetching remote objects and mappping them. Neither has a special initializer.
