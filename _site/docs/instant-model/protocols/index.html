@@ -11,7 +11,7 @@
     <meta property="og:site_name"   content="Protocols">
     <meta property="og:title"       content="Protocols">
     <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
-    <meta property="og:image"       content="/images/logos/x-large.png">
+    <meta property="og:image"       content="/img/logos/x-large.png">
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -26,21 +26,29 @@
     <script>try{Typekit.load();}catch(e){}</script>
   </head>
   <body>
-    
-    <header class="header">
-      <div class="container">
-        <h1 class="header-title">
-          <a href="/">
-            <img src="/images/logos/small.png" alt="" class="header-logo">
-            Instant Cocoa
-          </a>
-        </h1>
-      </div>
-    </header>
-    
+    <div class="off-canvas-wrap">
+      <div class="off-canvas-inner">
+        
+        <header class="header">
+          <div class="header-container container">
+            <h1 class="header-title">
+              <a href="/">
+                <img src="/img/logos/small.png" alt="" class="header-logo">
+                Instant Cocoa
+              </a>
+            </h1>
 
-    <main class="main">
-      <div class="content">
+            <button id="nav-btn" class="header-nav-btn">
+              <svg class="header-nav-btn-icon" xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="32" data-icon="menu" data-container-transform="translate(0 4)" viewBox="0 0 32 32">
+                <path d="M0 0v3h32v-3h-32zm0 10v3h32v-3h-32zm0 10v3h32v-3h-32z" transform="translate(0 4)" />
+              </svg>
+            </button>
+          </div>
+        </header>
+        
+
+        <main class="main">
+          <div class="content">
   <div class="container">
     <nav class="nav">
       <ul class="nav-list-primary">
@@ -223,25 +231,20 @@
     </article>
   </div>
 </div>
-    </main>
+        </main>
 
-    <footer class="footer">
-      <div class="container">
-        <a href="" class="footer-title footer-link">Instant Cocoa</a>
-        <a href="https://github.com/khanlou/instantcocoa/blob/master/LICENSE" class="footer-license footer-link">MIT Licensed</a>
-        By
-        <a href="" class="footer-link">Soroush Khanlou</a>
+        <footer class="footer">
+          <div class="container">
+            <a href="" class="footer-title footer-link">Instant Cocoa</a>
+            <a href="https://github.com/khanlou/instantcocoa/blob/master/LICENSE" class="footer-license footer-link">MIT Licensed</a>
+            By
+            <a href="" class="footer-link">Soroush Khanlou</a>
+          </div>
+        </footer>
       </div>
-    </footer>
+    </div>
 
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-61265657-1', 'auto');
-      ga('send', 'pageview');
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/js/script.min.js"></script>
   </body>
 </html>

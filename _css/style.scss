@@ -77,8 +77,31 @@ code {
 //  =SCAFFOLDING
 //  ----------------------------------------------------------------------
 
+.off-canvas {
+  @media (max-width: $nav-bp) {
+    &-wrap {
+      min-height: 100%;
+      background: #38373a;
+      overflow: hidden;
+      position: relative;
+      -webkit-backface-visibility: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    &-inner {
+      position: relative;
+      transition: transform 500ms ease;
+      -webkit-backface-visibility: hidden;
+    }
+  }
+
+  .off-canvas-inner {
+    transform: translate3d(-$nav-w, 0, 0);
+  }
+}
+
 .container {
-  @media (max-width: $mobile) { padding: 0 $gutter / 2; }
+  @media (max-width: $mobile) { padding: 0 $container-gutter-mobile; }
 }
 
 
@@ -166,18 +189,41 @@ $btn-padding: 18px;
 
 //  =HEADER
 .header {
+  background: $grey;
   color: #fff;
+  overflow: hidden;
   padding: 20px 0;
+
+  &-container {
+    position: relative;
+  }
 
   &-title {
     @include font-size(24px);
+    margin: 0;
 
     a { color: inherit; }
   }
 
   &-logo {
     float: left;
-    margin: -11px 5px 0 0;
+    margin: -11px 5px -9px 0;
+  }
+
+  &-nav-btn {
+    display: none;
+    margin: -15px 0 0;
+    position: absolute;
+    top: 50%;
+    right: $container-gutter-mobile;
+
+    &-icon {
+      fill: #fff;
+    }
+
+    @media (max-width: $nav-bp) {
+      display: block;
+    }
   }
 }
 
@@ -240,7 +286,7 @@ $btn-padding: 18px;
 //  =HOME
 
 .content-header {
-  background: url('/images/grain.png'), linear-gradient(to bottom, darken(#38373a, 10%), $grey);
+  background: url('/img/grain.png'), linear-gradient(to bottom, darken(#38373a, 10%), $grey);
   color: #f0ebfe;
   padding: 56px 0 68px;
   text-align: center;
@@ -428,28 +474,30 @@ $btn-padding: 18px;
     }
   }
 
-  @media (max-width: 675px) {
-    float: none;
-    margin: 0 0 $gutter-y;
-    overflow: hidden;
+  @media (max-width: $nav-bp) {
+    margin: 0;
+    padding: 0 $gutter $gutter;
+    position: absolute;
+    top: 25px;
+    right: -$nav-w;
 
-    &-list-primary > li {
-      float: left;
+    &-list {
+      &-primary > li {
+        color: lighten(#57565a, 10%);
 
-      + li { margin: 0 0 0 $gutter; }
+        > a { color: lighten(#57565a, 25%); }
+
+        + li { margin: 28px 0 0; }
+      }
+
+      &-secondary {
+        li { margin: 14px 0; }
+      }
     }
-  }
 
-  @media (max-width: 620px) {
-    &-list-primary > li {
-      &,
-      + li {
-        margin: 0 $gutter $gutter 0;
-      }
-
-      &:nth-child(odd) {
-        clear: left;
-      }
+    a {
+      border-bottom: 0;
+      color: lighten(#716F73, 30%);
     }
   }
 }

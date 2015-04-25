@@ -27,6 +27,26 @@ module.exports = function(grunt) {
       }
     },
 
+    concat: {
+      js: {
+        src: [
+          //'<%= app.assets %>_js/vendor/**/*.js',
+          '<%= app.assets %>_js/*.js'
+        ],
+        dest: '<%= app.assets %>js/script.js'
+      },
+      options: {
+        separator: ';'
+      }
+    },
+
+    uglify: {
+      js: {
+        src: '<%= concat.js.dest %>',
+        dest: '<%= app.assets %>js/script.min.js'
+      }
+    },
+
     shell: {
       jekyll_serve: {
         command: "jekyll serve"
@@ -69,5 +89,5 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('serve', ['shell:jekyll_serve']);
-  grunt.registerTask('default', ['sass', 'autoprefixer', 'shell:jekyll_build', 'watch']);
+  grunt.registerTask('default', ['sass', 'autoprefixer', 'newer:concat', 'newer:uglify', 'shell:jekyll_build', 'watch']);
 };
