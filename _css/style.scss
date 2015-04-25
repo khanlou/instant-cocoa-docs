@@ -14,7 +14,7 @@ body {
   background: $grey;
   @include font-size($font-size);
 
-  @media (max-width: $mobile) { font-size: 14px; }
+  @media (max-width: $mobile) { font-size: 15px; }
 }
 
 @for $i from 1 through 6 {
@@ -30,17 +30,6 @@ body {
 %h4 { font-size: $font-size; }
 %h5 { font-size: $font-size; }
 %h6 { font-size: $font-size; }
-
-//a {
-//  color: $purple;
-//  border-bottom: 1px currentColor dotted;
-//  text-decoration: none;
-//
-//  &:hover,
-//  &:focus {
-//    border-bottom-style: solid;
-//  }
-//}
 
 pre,
 code {
@@ -282,7 +271,7 @@ $btn-padding: 18px;
       min-width: $width;
       margin: 0 20px;
 
-      @media (max-width: 500px) {
+      @media (max-width: 625px) {
         max-width: $width;
         min-width: 0;
         display: block;
@@ -321,6 +310,7 @@ $btn-padding: 18px;
       display: table-cell;
       padding: 0 $gutter 0 0;
       text-align: center;
+      vertical-align: middle;
     }
 
     &-title { margin: 14px 0 0; }
