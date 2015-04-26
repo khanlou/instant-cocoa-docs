@@ -131,8 +131,8 @@ $btn-padding: 18px;
   @extend %btn;
   border: 1px $color solid;
   color: $purple;
-  @include font-size(14px);
-  padding: 8px 20px;
+  @include font-size(17px);
+  padding: 8px 15px;
 
   &:after {
     content: '›';
