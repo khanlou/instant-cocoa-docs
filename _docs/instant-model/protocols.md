@@ -34,7 +34,7 @@ This is a dictionary that maps key names to instances of `ICPropertyAttributes`.
 
 ### ICMappable
 
-The `ICMappable` protocol inherits from `ICKeyValueCodable` and adds two methods for [converting to and from dictionaries](instant-model/mapping).
+The `ICMappable` protocol inherits from `ICKeyValueCodable` and adds two methods for [converting to and from dictionaries](../../instant-model/mapping).
 
 	- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 	@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation;
@@ -45,7 +45,7 @@ The `ICJSONMappable` protocol inherits from `ICMappable`. It adds three required
 
 	+ (NSDictionary*)JSONMapping;
 
-With that data, [mapper objects can map to and from JSON](instant-model/mapping), using two other methods in the protocol:
+With that data, [mapper objects can map to and from JSON](../../instant-model/mapping), using two other methods in the protocol:
 
 	- (instancetype)initWithJSONDictionary:(NSDictionary*)JSONDictionary;
 	@property (nonatomic, copy, readonly) NSDictionary *JSONRepresentation;
@@ -56,7 +56,7 @@ And one optional method, in case the server response needs additional manipulati
 
 ### ICRemoteObject
 
-Objects that also have a remote component can conform to `ICRemoteObject`. This protocol provides information to [objects that need to know how to access each model as a resource](instant-model/resource-gateway).
+Objects that also have a remote component can conform to `ICRemoteObject`. This protocol provides information to [objects that need to know how to access each model as a resource](../../instant-model/resource-gateway).
 
 It responds to a class method, which corresponds to the singleton resouce, such as `/users`
 

@@ -9,7 +9,7 @@ permalink: /docs/instant-data-source/sectioned-data-source/
 
 	- (instancetype)initWithDataSource:(id<ICDataSource>)dataSource sectioningKey:(NSString *)sectioningKey sortDescriptors:(NSArray *)sortDescriptors;
 
-Initialization with a data source allows for more flexibility. If you already have the objects that will be sectioned, you can turn those into a [simple data source]() and initialize with that. If the objects come from a [remote data source](), or from Core Data, you can also use those data sources, pass them into this data source, and have them be automatically sectioned.
+Initialization with a data source allows for more flexibility. If you already have the objects that will be sectioned, you can turn those into a [simple data source](../simple-data-source) and initialize with that. If the objects come from a [remote data source](../remote-data-sources), or from Core Data, you can also use those data sources, pass them into this data source, and have them be automatically sectioned.
 
 Note: the sectioned data source is required to be the delegate of the wrapped data source. It needs to know when data changes so that it can re-section itself and inform its own delegate.
 

@@ -9,7 +9,7 @@ In addition to the singularization and pluralization provided by [InflectorKit](
 
 ## The Inflector
 
-Instant Cocoa's powerful [introspection and reflection](../instant-model/reflection) capabilities are reliant on the ability to generate strings of specific formats easily. The `ICInflector` class provides that capability.
+Instant Cocoa's powerful [introspection and reflection](../../instant-model/reflection) capabilities are reliant on the ability to generate strings of specific formats easily. The `ICInflector` class provides that capability.
 
 ### Prefixes
 

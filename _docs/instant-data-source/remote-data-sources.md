@@ -11,7 +11,7 @@ permalink: /docs/instant-data-source/remote-data-sources/
 
 `ICRemoteDataSource` is the marriage of `ICCollectionFetcher` and the `<ICDataSource>` protocol. `ICRemoteDataSource` is configured similarly to `ICCollectionFetcher`.
 
-View the docs for [`ICCollectionFetcher`](../instant-model/collection-fetcher) for the details on usage of `mappingClass`, `remoteConfiguration`, `queryParameters`, `apiPath`, and `keyPath`.
+View the docs for [`ICCollectionFetcher`](../../instant-model/collection-fetcher) for the details on usage of `mappingClass`, `remoteConfiguration`, `queryParameters`, `apiPath`, and `keyPath`.
 
 ### Usage
 

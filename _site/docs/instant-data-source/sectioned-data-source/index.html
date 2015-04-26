@@ -156,7 +156,7 @@
 <pre><code>- (instancetype)initWithDataSource:(id&lt;ICDataSource&gt;)dataSource sectioningKey:(NSString *)sectioningKey sortDescriptors:(NSArray *)sortDescriptors;
 </code></pre>
 
-<p>Initialization with a data source allows for more flexibility. If you already have the objects that will be sectioned, you can turn those into a <a href="">simple data source</a> and initialize with that. If the objects come from a <a href="">remote data source</a>, or from Core Data, you can also use those data sources, pass them into this data source, and have them be automatically sectioned.</p>
+<p>Initialization with a data source allows for more flexibility. If you already have the objects that will be sectioned, you can turn those into a <a href="../simple-data-source">simple data source</a> and initialize with that. If the objects come from a <a href="../remote-data-sources">remote data source</a>, or from Core Data, you can also use those data sources, pass them into this data source, and have them be automatically sectioned.</p>
 
 <p>Note: the sectioned data source is required to be the delegate of the wrapped data source. It needs to know when data changes so that it can re-section itself and inform its own delegate.</p>
 

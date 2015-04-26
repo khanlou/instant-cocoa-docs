@@ -155,15 +155,15 @@
 
 <h2 id="protocols">Protocols</h2>
 
-<p>The <a href="instant-model/protocols/">Instant Model protocols</a> provide flexibility when working with Instant Model. The <code>ICModel</code> class provides an implementation for most of them, but your own model class can conform to them as well, so you are not required to subclass <code>ICModel</code> to make your entities. If an interface that takes one of these protocols does not work (with a non-<code>ICModel</code> object), we consider that a bug.</p>
+<p>The <a href="protocols">Instant Model protocols</a> provide flexibility when working with Instant Model. The <code>ICModel</code> class provides an implementation for most of them, but your own model class can conform to them as well, so you are not required to subclass <code>ICModel</code> to make your entities. If an interface that takes one of these protocols does not work (with a non-<code>ICModel</code> object), we consider that a bug.</p>
 
 <h2 id="reflection">Reflection</h2>
 
-<p><a href="instant-model/reflection/">Reflection</a> in Instant Cocoa is handled by two classes, <code>ICModelInspector</code> and <code>ICPropertyAttributes</code>. These are currently designed for use in the model layer, but in the future, they may be used in other layers, including the view layer. These classes can be used by your own model object to provide simple reflection.</p>
+<p><a href="reflection">Reflection</a> in Instant Cocoa is handled by two classes, <code>ICModelInspector</code> and <code>ICPropertyAttributes</code>. These are currently designed for use in the model layer, but in the future, they may be used in other layers, including the view layer. These classes can be used by your own model object to provide simple reflection.</p>
 
 <h2 id="json-mapping">JSON Mapping</h2>
 
-<p><a href="instant-model/mapping/">JSON Mapping</a> is a core part of Instant Model. Mappings are provided by the <code>+JSONMapping</code> class method, and objects are mapped to and from JSON with the <code>ICJSONMapper</code> class. This class is complex and hard to understand, so it may change in the near future, possibly being broken out into multiple classes. The model protocols should be considered stable.</p>
+<p><a href="mapping">JSON Mapping</a> is a core part of Instant Model. Mappings are provided by the <code>+JSONMapping</code> class method, and objects are mapped to and from JSON with the <code>ICJSONMapper</code> class. This class is complex and hard to understand, so it may change in the near future, possibly being broken out into multiple classes. The model protocols should be considered stable.</p>
 
 <h3 id="collection-mapping">Collection Mapping</h3>
 
@@ -171,19 +171,19 @@
 
 <h3 id="serializers">Serializers</h3>
 
-<p>Foundation (and foundational) types, such as <code>NSDate</code>, <code>NSURL</code>, and <code>UIColor</code>, can be automatically mapped using <a href="instant-model/serializers">Serializers</a>. Because of their implicit nature, their future is somewhat shakey, and their interface may change.</p>
+<p>Foundation (and foundational) types, such as <code>NSDate</code>, <code>NSURL</code>, and <code>UIColor</code>, can be automatically mapped using <a href="serializers">Serializers</a>. Because of their implicit nature, their future is somewhat shakey, and their interface may change.</p>
 
 <h2 id="value-objects">Value Objects</h2>
 
-<p>Instant Cocoa supports <a href="instant-model/value-objects">value types</a> as well as entity types. Value types are initialized and backed with an <code>NSString</code> or an <code>NSNumber</code>, and provide a richer domain layer for apps.</p>
+<p>Instant Cocoa supports <a href="value-objects">value types</a> as well as entity types. Value types are initialized and backed with an <code>NSString</code> or an <code>NSNumber</code>, and provide a richer domain layer for apps.</p>
 
 <h2 id="remote-access">Remote Access</h2>
 
-<p>Instant Model provides <a href="instant-model/resource-gateway/">REST-based access to remote objects</a>, including performing verbs on them through <code>ICResourceGateway</code>.</p>
+<p>Instant Model provides <a href="resource-gateway/">REST-based access to remote objects</a>, including performing verbs on them through <code>ICResourceGateway</code>.</p>
 
 <h2 id="collection-fetcher">Collection Fetcher</h2>
 
-<p><a href="instant-model/collection-fetcher">REST-based collections can also be fetched and mapped</a> with <code>ICCollectionFetcher</code>. This provides the core of <code>ICRemoteDataSource</code>.</p>
+<p><a href="collection-fetcher">REST-based collections can also be fetched and mapped</a> with <code>ICCollectionFetcher</code>. This provides the core of <code>ICRemoteDataSource</code>.</p>
 
     </article>
   </div>

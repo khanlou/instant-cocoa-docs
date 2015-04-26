@@ -183,7 +183,7 @@
 
 <h3 id="icmappable">ICMappable</h3>
 
-<p>The <code>ICMappable</code> protocol inherits from <code>ICKeyValueCodable</code> and adds two methods for <a href="instant-model/mapping">converting to and from dictionaries</a>.</p>
+<p>The <code>ICMappable</code> protocol inherits from <code>ICKeyValueCodable</code> and adds two methods for <a href="../../instant-model/mapping">converting to and from dictionaries</a>.</p>
 
 <pre><code>- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 @property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation;
@@ -196,7 +196,7 @@
 <pre><code>+ (NSDictionary*)JSONMapping;
 </code></pre>
 
-<p>With that data, <a href="instant-model/mapping">mapper objects can map to and from JSON</a>, using two other methods in the protocol:</p>
+<p>With that data, <a href="../../instant-model/mapping">mapper objects can map to and from JSON</a>, using two other methods in the protocol:</p>
 
 <pre><code>- (instancetype)initWithJSONDictionary:(NSDictionary*)JSONDictionary;
 @property (nonatomic, copy, readonly) NSDictionary *JSONRepresentation;
@@ -209,7 +209,7 @@
 
 <h3 id="icremoteobject">ICRemoteObject</h3>
 
-<p>Objects that also have a remote component can conform to <code>ICRemoteObject</code>. This protocol provides information to <a href="instant-model/resource-gateway">objects that need to know how to access each model as a resource</a>.</p>
+<p>Objects that also have a remote component can conform to <code>ICRemoteObject</code>. This protocol provides information to <a href="../../instant-model/resource-gateway">objects that need to know how to access each model as a resource</a>.</p>
 
 <p>It responds to a class method, which corresponds to the singleton resouce, such as <code>/users</code></p>
 
