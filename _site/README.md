@@ -6,6 +6,7 @@ Site & docs for [Instant Cocoa](https://github.com/khanlou/instantcocoa/).
 1. Install the dependencies:
    ```console
    gem install jekyll sass-globbing
+   npm install -g grunt-cli
    npm install
    ```
 
