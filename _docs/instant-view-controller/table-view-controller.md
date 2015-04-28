@@ -23,7 +23,7 @@ To configure cells, calculate heights, and update selections, `ICTableViewContro
 
 The benefit of having an `<ICDataSource>` is that the table view controller no longer needs to ask about how many sections there or how many objects are in each section. `ICTableViewController` and your `<ICDataSource>` will simply talk to each other and figure this information out. `ICTableViewController` is will also allocate your cells for you, so the only thing that you need to provide is the binding from your model object to your cell object.
 
-Instant Cocoa gets this information by dynamically calling a message in the form of `-configureCell:with<ModelName>:` on its `cellConfigurationDelegate. For example, if your data source was full of `MYUser` objects, you could implement
+Instant Cocoa gets this information by dynamically calling a message in the form of `-configureCell:with<ModelName>:` on its `cellConfigurationDelegate`. For example, if your data source was full of `MYUser` objects, you could implement
 
 	- (void)configureCell:(MYUserCell *)cell withUser:(MYUser *) user {
 		cell.textLabel.text = user.name;
@@ -77,6 +77,36 @@ It also follows the same fallback pattern as the other two messages.
 1. `-tableView:heightFor<ModelName>:`
 2. `-tableView:heightFor<ModelClassName>:`
 3. `-tableView:heightForObject:`
+
+## The payoff
+
+Using these techniques pays off in a major way, making table view controllers much more digestable.
+
+	@implementation SKFollowerListViewController
+
+	- (instancetype)initWithUsers:(NSArray *)followers {
+	    self = [super init];
+	    if (!self) return nil;
+    
+	    self.dataSource = [[ICSimpleDataSource alloc] initWithObjects:followers];
+       [self registerCellClass:[SKUserCell class] forModelClass:[SKUser class]];
+
+	    return self;
+	}
+
+	- (void)configureCell:(SKUserCell *)cell withUser:(SKUser *)user {
+	    cell.textLabel.text = user.name;
+	    cell.detailTextLabel.text = user.bio;
+	}
+
+	- (void)tableView:(UITableView *)tableView didSelectUser:(SKUser *)user {
+	    SKUserViewController *userViewController = [[SKUserViewController alloc] initWithUser:user];
+	    [self.navigationController pushViewController:userViewController animated:YES];
+	}
+
+	@end
+
+That's it!
 
 ## Overriding default behavior
 

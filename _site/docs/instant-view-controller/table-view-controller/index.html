@@ -189,7 +189,7 @@
 
 <p>The benefit of having an <code>&lt;ICDataSource&gt;</code> is that the table view controller no longer needs to ask about how many sections there or how many objects are in each section. <code>ICTableViewController</code> and your <code>&lt;ICDataSource&gt;</code> will simply talk to each other and figure this information out. <code>ICTableViewController</code> is will also allocate your cells for you, so the only thing that you need to provide is the binding from your model object to your cell object.</p>
 
-<p>Instant Cocoa gets this information by dynamically calling a message in the form of <code>-configureCell:with&lt;ModelName&gt;:</code> on its <code>cellConfigurationDelegate. For example, if your data source was full of </code>MYUser` objects, you could implement</p>
+<p>Instant Cocoa gets this information by dynamically calling a message in the form of <code>-configureCell:with&lt;ModelName&gt;:</code> on its <code>cellConfigurationDelegate</code>. For example, if your data source was full of <code>MYUser</code> objects, you could implement</p>
 
 <pre><code>- (void)configureCell:(MYUserCell *)cell withUser:(MYUser *) user {
 	cell.textLabel.text = user.name;
@@ -253,6 +253,37 @@
   <li><code>-tableView:heightFor&lt;ModelClassName&gt;:</code></li>
   <li><code>-tableView:heightForObject:</code></li>
 </ol>
+
+<h2 id="the-payoff">The payoff</h2>
+
+<p>Using these techniques pays off in a major way, making table view controllers much more digestable.</p>
+
+<pre><code>@implementation SKFollowerListViewController
+
+- (instancetype)initWithUsers:(NSArray *)followers {
+    self = [super init];
+    if (!self) return nil;
+
+    self.dataSource = [[ICSimpleDataSource alloc] initWithObjects:followers];
+   [self registerCellClass:[SKUserCell class] forModelClass:[SKUser class]];
+
+    return self;
+}
+
+- (void)configureCell:(SKUserCell *)cell withUser:(SKUser *)user {
+    cell.textLabel.text = user.name;
+    cell.detailTextLabel.text = user.bio;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectUser:(SKUser *)user {
+    SKUserViewController *userViewController = [[SKUserViewController alloc] initWithUser:user];
+    [self.navigationController pushViewController:userViewController animated:YES];
+}
+
+@end
+</code></pre>
+
+<p>That’s it!</p>
 
 <h2 id="overriding-default-behavior">Overriding default behavior</h2>
 

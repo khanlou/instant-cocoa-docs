@@ -193,7 +193,7 @@
 
 <p>The benefit of having an <code>&lt;ICDataSource&gt;</code> is that the collection view controller no longer needs to ask about how many sections there or how many objects are in each section. <code>ICCollectionViewController</code> and your <code>&lt;ICDataSource&gt;</code> will simply talk to each other and figure this information out. <code>ICCollectionViewController</code> is will also allocate your cells for you, so the only thing that you need to provide is the binding from your model object to your cell object.</p>
 
-<p>Instant Cocoa gets this information by dynamically calling a message in the form of <code>-configureCell:with&lt;ModelName&gt;:</code> on its <code>cellConfigurationDelegate. For example, if your data source was full of </code>MYUser` objects, you could implement</p>
+<p>Instant Cocoa gets this information by dynamically calling a message in the form of <code>-configureCell:with&lt;ModelName&gt;:</code> on its <code>cellConfigurationDelegate</code>. For example, if your data source was full of <code>MYUser</code> objects, you could implement</p>
 
 <pre><code>- (void)configureCell:(MYUserCell *)cell withUser:(MYUser *) user {
 	cell.textLabel.text = user.name;

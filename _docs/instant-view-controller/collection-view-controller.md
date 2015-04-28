@@ -27,7 +27,7 @@ To configure cells, calculate heights, and update selections, `ICCollectionViewC
 
 The benefit of having an `<ICDataSource>` is that the collection view controller no longer needs to ask about how many sections there or how many objects are in each section. `ICCollectionViewController` and your `<ICDataSource>` will simply talk to each other and figure this information out. `ICCollectionViewController` is will also allocate your cells for you, so the only thing that you need to provide is the binding from your model object to your cell object.
 
-Instant Cocoa gets this information by dynamically calling a message in the form of `-configureCell:with<ModelName>:` on its `cellConfigurationDelegate. For example, if your data source was full of `MYUser` objects, you could implement
+Instant Cocoa gets this information by dynamically calling a message in the form of `-configureCell:with<ModelName>:` on its `cellConfigurationDelegate`. For example, if your data source was full of `MYUser` objects, you could implement
 
 	- (void)configureCell:(MYUserCell *)cell withUser:(MYUser *) user {
 		cell.textLabel.text = user.name;
