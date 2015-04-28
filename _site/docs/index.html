@@ -208,23 +208,23 @@
 
 <h3 id="instant-data-source">Instant Data Source</h3>
 
-<p>A large amount of the boilerplate in our apps is dealing with table views and collection views and their totally bewildering API. <code>ICDataSource</code> objects are an attempt to simplify that. They are designed to be configured, rather than continually modified. After being configured, they present a straightforward API for table views and collection views to consume.</p>
+<p>A large amount of the boilerplate in our apps is dealing with table views and collection views and their totally bewildering API. <a href="instant-data-source">Data source</a> objects are an attempt to simplify that. They are designed to be configured, rather than continually modified. After being configured, they present a straightforward API for table views and collection views to consume.</p>
 
 <ul>
-  <li><code>ICSimpleDataSource</code> presents any array of objects to the table view.</li>
-  <li><code>ICSectionedDataSource</code> takes an array and a sectioning key. It then splits that array into sections based on the sectioning key.</li>
-  <li><code>ICRemoteDataSource</code> is powered by an API endpoint. It also takes a model for automatic mapping. It provides information to the table view about whether it is loading, had an error, and of course, the objects its presenting.</li>
-  <li><code>ICPaginatedDataSource</code> is similar to the remote data source, but also takes keys that let it automatically download the next page of objects.</li>
-  <li><code>ICMultiDataSource</code> is where the true power of data source objects is revealed: It takes several sub-datasources, fetches all of them, and presents them to the table view (or collection view) as they are ready, allowing you to have mixed data types in your table view without the effort of painstakingly synchronizing each of them.</li>
+  <li><a href="instant-data-source/simple-data-source"><code>ICSimpleDataSource</code></a> presents any array of objects to the table view.</li>
+  <li><a href="instant-data-source/sectioned-data-source"><code>ICSectionedDataSource</code></a> takes an array and a sectioning key. It then splits that array into sections based on the sectioning key.</li>
+  <li><a href="instant-data-source/remote-data-sources"><code>ICRemoteDataSource</code></a> is powered by an API endpoint. It also takes a model for automatic mapping. It provides information to the table view about whether it is loading, had an error, and of course, the objects its presenting.</li>
+  <li><a href="instant-data-source/remote-data-sources"><code>ICPaginatedDataSource</code></a> is similar to the remote data source, but also takes keys that let it automatically download the next page of objects.</li>
+  <li><a href="instant-data-source/multi-data-source"><code>ICMultiDataSource</code></a> is where the true power of data source objects is revealed: It takes several sub-datasources, fetches all of them, and presents them to the table view (or collection view) as they are ready, allowing you to have mixed data types in your table view without the effort of painstakingly synchronizing each of them.</li>
 </ul>
 
 <h3 id="instant-view-controller">Instant View Controller</h3>
 
-<p>Data Source objects are very useful, but without a table view to talk to, they’re not doing very much.</p>
+<p>Data source objects are very useful, but without a table view or controller to talk to, they’re not doing very much.</p>
 
 <ul>
-  <li><code>ICTableViewController</code> provides the basic implementation for a table view. It will agnostically display any Data Source, and will also automatically fetch new pages, if it is displaying a Paginated Data Source.</li>
-  <li><code>ICCollectionViewController</code> is essentially the same, but with a collection view instead of a table view.</li>
+  <li><a href="instant-view-controller/table-view-controller"><code>ICTableViewController</code></a> provides the basic implementation for a table view. It will agnostically display any Data Source, and will also automatically fetch new pages, if it is displaying a Paginated Data Source.</li>
+  <li><a href="instant-view-controller/collection-view-controller"><code>ICCollectionViewController</code></a> is essentially the same, but with a collection view instead of a table view.</li>
 </ul>
 
 <h2 id="why-instant-cocoa">Why Instant Cocoa?</h2>

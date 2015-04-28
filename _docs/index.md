@@ -40,20 +40,20 @@ Instant Cocoa's model is very powerful. It's built on a lot of the ideas of the 
 
 ### Instant Data Source
 
-A large amount of the boilerplate in our apps is dealing with table views and collection views and their totally bewildering API. `ICDataSource` objects are an attempt to simplify that. They are designed to be configured, rather than continually modified. After being configured, they present a straightforward API for table views and collection views to consume.
+A large amount of the boilerplate in our apps is dealing with table views and collection views and their totally bewildering API. [Data source](instant-data-source) objects are an attempt to simplify that. They are designed to be configured, rather than continually modified. After being configured, they present a straightforward API for table views and collection views to consume.
 
-* `ICSimpleDataSource` presents any array of objects to the table view.
-* `ICSectionedDataSource` takes an array and a sectioning key. It then splits that array into sections based on the sectioning key.
-* `ICRemoteDataSource` is powered by an API endpoint. It also takes a model for automatic mapping. It provides information to the table view about whether it is loading, had an error, and of course, the objects its presenting.
-* `ICPaginatedDataSource` is similar to the remote data source, but also takes keys that let it automatically download the next page of objects.
-*  `ICMultiDataSource` is where the true power of data source objects is revealed: It takes several sub-datasources, fetches all of them, and presents them to the table view (or collection view) as they are ready, allowing you to have mixed data types in your table view without the effort of painstakingly synchronizing each of them.
+* [`ICSimpleDataSource`](instant-data-source/simple-data-source) presents any array of objects to the table view.
+* [`ICSectionedDataSource`](instant-data-source/sectioned-data-source) takes an array and a sectioning key. It then splits that array into sections based on the sectioning key.
+* [`ICRemoteDataSource`](instant-data-source/remote-data-sources) is powered by an API endpoint. It also takes a model for automatic mapping. It provides information to the table view about whether it is loading, had an error, and of course, the objects its presenting.
+* [`ICPaginatedDataSource`](instant-data-source/remote-data-sources) is similar to the remote data source, but also takes keys that let it automatically download the next page of objects.
+*  [`ICMultiDataSource`](instant-data-source/multi-data-source) is where the true power of data source objects is revealed: It takes several sub-datasources, fetches all of them, and presents them to the table view (or collection view) as they are ready, allowing you to have mixed data types in your table view without the effort of painstakingly synchronizing each of them.
 
 ### Instant View Controller
 
-Data Source objects are very useful, but without a table view to talk to, they're not doing very much.
+Data source objects are very useful, but without a table view or controller to talk to, they're not doing very much.
 
-* `ICTableViewController` provides the basic implementation for a table view. It will agnostically display any Data Source, and will also automatically fetch new pages, if it is displaying a Paginated Data Source.
-* `ICCollectionViewController` is essentially the same, but with a collection view instead of a table view.
+* [`ICTableViewController`](instant-view-controller/table-view-controller) provides the basic implementation for a table view. It will agnostically display any Data Source, and will also automatically fetch new pages, if it is displaying a Paginated Data Source.
+* [`ICCollectionViewController`](instant-view-controller/collection-view-controller) is essentially the same, but with a collection view instead of a table view.
 
 ## Why Instant Cocoa?
 
