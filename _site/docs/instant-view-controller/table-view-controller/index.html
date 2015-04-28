@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <title>Table View Controller</title>
+
+    <meta name="description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta name="author"      content="Soroush Khanlou">
+
+    <meta property="og:site_name"   content="Table View Controller">
+    <meta property="og:title"       content="Table View Controller">
+    <meta property="og:description" content="Instant Cocoa is an Objective-C framework for making iOS apps.">
+    <meta property="og:image"       content="/img/logos/x-large.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="/css/style.min.css">
+
+    <link rel="canonical" href="http://instantcocoa.io/docs/instant-view-controller/table-view-controller/">
+    <link rel="alternate" href="http://instantcocoa.io/feed.xml" type="application/rss+xml" title="Instant Cocoa">
+
+    <script src="//use.typekit.net/sec7fxd.js"></script>
+    <script>try{Typekit.load();}catch(e){}</script>
+  </head>
+  <body>
+    <div class="off-canvas-wrap">
+      <div class="off-canvas-inner">
+        
+        <header class="header">
+          <div class="header-container container">
+            <h1 class="header-title">
+              <a href="/">
+                <img src="/img/logos/small.png" alt="" class="header-logo">
+                Instant Cocoa
+              </a>
+            </h1>
+
+            <button id="nav-btn" class="header-nav-btn">
+              <svg class="header-nav-btn-icon" xmlns="http://www.w3.org/2000/svg" version="1.1" width="32" height="32" data-icon="menu" data-container-transform="translate(0 4)" viewBox="0 0 32 32">
+                <path d="M0 0v3h32v-3h-32zm0 10v3h32v-3h-32zm0 10v3h32v-3h-32z" transform="translate(0 4)" />
+              </svg>
+            </button>
+          </div>
+        </header>
+        
+
+        <main class="main">
+          <div class="content">
+  <div class="container">
+    <nav class="nav">
+      <ul class="nav-list-primary">
+        <li>
+          <a href="/docs/">Overview</a>
+        </li>
+
+        
+        <li>
+          
+          Core
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/core/inflector/" class="post-link link">Inflector</a>
+            </li>
+            
+            <li>
+              <a href="/docs/core/router/" class="post-link link">Router</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li>
+          
+          <a href="/docs/instant-model">Instant Model</a>
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/instant-model/collection-fetcher/" class="post-link link">Collection Fetcher</a>
+            </li>
+            
+            <li>
+              <a href="/docs/instant-model/mapping/" class="post-link link">Mapping</a>
+            </li>
+            
+            <li>
+              <a href="/docs/instant-model/protocols/" class="post-link link">Protocols</a>
+            </li>
+            
+            <li>
+              <a href="/docs/instant-model/reflection/" class="post-link link">Reflection</a>
+            </li>
+            
+            <li>
+              <a href="/docs/instant-model/resource-gateway/" class="post-link link">Resource Gateway</a>
+            </li>
+            
+            <li>
+              <a href="/docs/instant-model/serializers/" class="post-link link">Serializers</a>
+            </li>
+            
+            <li>
+              <a href="/docs/instant-model/value-objects/" class="post-link link">Value Objects</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li>
+          
+          <a href="/docs/instant-data-source">Instant Data Source</a>
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/instant-data-source/multi-data-source/" class="post-link link">Multi Data Source</a>
+            </li>
+            
+            <li>
+              <a href="/docs/instant-data-source/remote-data-sources/" class="post-link link">Remote Data Sources</a>
+            </li>
+            
+            <li>
+              <a href="/docs/instant-data-source/sectioned-data-source/" class="post-link link">Sectioned Data Source</a>
+            </li>
+            
+            <li>
+              <a href="/docs/instant-data-source/simple-data-source/" class="post-link link">Simple Data Source</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li>
+          
+          <a href="/docs/instant-view-controller">Instant View Controller</a>
+          
+
+          <ul class="nav-list-secondary">
+            
+            
+            <li>
+              <a href="/docs/instant-view-controller/collection-view-controller/" class="post-link link">Collection View Controller</a>
+            </li>
+            
+            <li>
+              <a href="/docs/instant-view-controller/table-view-controller/" class="post-link link">Table View Controller</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+      </ul>
+    </nav>
+
+    <article class="docs-article article">
+      <h1 class="doc-title">
+        
+
+        Table View Controller
+      </h1>
+      <p><code>ICTableViewController</code> is an <code>ICViewController</code> subclass that binds an <code>&lt;ICDataSource&gt;</code> and a <code>UITableView</code> together. It is designed to be subclassed.</p>
+
+<p><code>ICTableViewController</code> knows about <code>&lt;ICDataSource&gt;</code> and will do lots of heavy lifting so that you can easily write table view screens.</p>
+
+<h2 id="registering-cell-classes-and-model-classes">Registering cell classes and model classes</h2>
+
+<p><code>ICTableViewController</code> allows you to register a cell class for each model class that you have. For each object in the data source, it will check which cell class it should allocate, and allocate that cell for you. If the model does not have a registered cell class, the <code>defaultCellClass</code> will be implicitly registered. This value defaults to <code>UITableViewCell</code>. To register a cell class, use the following method:</p>
+
+<pre><code>- (void)registerCellClass:(Class)cellClass forModelClass:(Class)modelClass;
+</code></pre>
+
+<h2 id="cellconfigurationdelegate"><code>cellConfigurationDelegate</code></h2>
+
+<p>To configure cells, calculate heights, and update selections, <code>ICTableViewController</code> uses its <code>cellConfigurationDelegate</code>. This defaults to the table view controller itself, and should conform to <code>ICTableCellConfigurationDelegate</code>.</p>
+
+<h2 id="dynamic-message-construction">Dynamic message construction</h2>
+
+<p>The benefit of having an <code>&lt;ICDataSource&gt;</code> is that the table view controller no longer needs to ask about how many sections there or how many objects are in each section. <code>ICTableViewController</code> and your <code>&lt;ICDataSource&gt;</code> will simply talk to each other and figure this information out. <code>ICTableViewController</code> is will also allocate your cells for you, so the only thing that you need to provide is the binding from your model object to your cell object.</p>
+
+<p>Instant Cocoa gets this information by dynamically calling a message in the form of <code>-configureCell:with&lt;ModelName&gt;:</code> on its <code>cellConfigurationDelegate. For example, if your data source was full of </code>MYUser` objects, you could implement</p>
+
+<pre><code>- (void)configureCell:(MYUserCell *)cell withUser:(MYUser *) user {
+	cell.textLabel.text = user.name;
+	cell.imageView.image = user.avatar;
+}
+</code></pre>
+
+<p>The cell and model are already allocated and ready for binding. These objects are also passed-by-reference, so you don’t need to return the cell once the model has been bound to it.</p>
+
+<p>The <code>&lt;ModelName&gt;</code> that is used for constructing this message is created by calling <code>+modelName</code> on each object in the data source. <code>ICModel</code> implements this method by calling a method on <a href="../../core/inflector"><code>ICInflector</code></a>, which turns the class name into a string and removes the prefix by default.</p>
+
+<pre><code>+ (NSString *)modelName {
+    return [[ICInflector sharedInflector] modelNameFromClass:self];
+}
+</code></pre>
+
+<p>If the message is not implemented, <code>ICTableViewController</code> will fall back to other messages. The fallback order is:</p>
+
+<ol>
+  <li><code>-configureCell:with&lt;ModelName&gt;:</code></li>
+  <li><code>-configureCell:with&lt;ModelClassName&gt;:</code></li>
+  <li><code>-configureCell:withObject:</code></li>
+</ol>
+
+<p><code>ICTableViewController</code> provides a default implementation for <code>-configureCell:withObject:</code> which is a no-op.</p>
+
+<h2 id="placeholders">Placeholders</h2>
+
+<p>In addition to model object, <code>ICTableViewController</code> provides special consideration for a few other object types: placeholders and errors.</p>
+
+<p>Instant Cocoa provides two types of placeholders: loading placeholders and “no results” placeholders. These correspond to special messages that are called on the <code>cellConfigurationDelegate</code>. <code>ICLoadingPlaceholder</code> corresponds to <code>-configureLoadingCell:</code>, <code>ICNoResultsPlaceholder</code> corresponds to <code>-configureNoResultsCell:</code>, and <code>NSError</code> corresponds to <code>-configureCell:withError:</code>.</p>
+
+<p><code>ICLoadingTableViewCell</code> is registered by default for <code>ICLoadingPlaceholder</code>, but this can be overridden. The default implementation of <code>-configureLoadingCell:</code> calls <code>-startAnimating</code> on the cell’s <code>activityIndicator</code>.</p>
+
+<h2 id="cell-selection">Cell selection</h2>
+
+<p>For configuring cells, getting objects is much easier than getting index paths. The same is true for cell selection, so Instant Cocoa will also call a dynamic message for this as well. This message takes the form</p>
+
+<pre><code>-tableView:didSelect&lt;ModelName&gt;:
+</code></pre>
+
+<p>Like cell configuration, it also falls back to other messages in the event that the <code>cellConfigurationDelegate</code> doesn’t respond to a message. The fallback order is:</p>
+
+<ol>
+  <li><code>-tableView:didSelect&lt;ModelName&gt;:</code></li>
+  <li><code>-tableView:didSelect&lt;ModelClassName&gt;:</code></li>
+  <li><code>-tableView:didSelectObject:</code></li>
+</ol>
+
+<h2 id="cell-height">Cell height</h2>
+
+<p>Similar to cell configuration and selection, cell height is also performed with a dynamic message. This one takes the form:</p>
+
+<pre><code>-tableView:heightFor&lt;ModelName&gt;:
+</code></pre>
+
+<p>It also follows the same fallback pattern as the other two messages.</p>
+
+<ol>
+  <li><code>-tableView:heightFor&lt;ModelName&gt;:</code></li>
+  <li><code>-tableView:heightFor&lt;ModelClassName&gt;:</code></li>
+  <li><code>-tableView:heightForObject:</code></li>
+</ol>
+
+<h2 id="overriding-default-behavior">Overriding default behavior</h2>
+
+<p><code>ICTableViewController</code> is <code>delegate</code> and <code>dataSource</code> for its table view, so, to override any of these behaviors, simply reimplement these methods without calling the <code>super</code> implementation.</p>
+
+
+    </article>
+  </div>
+</div>
+        </main>
+
+        <footer class="footer">
+          <div class="container">
+            <a href="" class="footer-title footer-link">Instant Cocoa</a>
+            <a href="https://github.com/khanlou/instantcocoa/blob/master/LICENSE" class="footer-license footer-link">MIT Licensed</a>
+            By
+            <a href="http://khanlou.com" class="footer-link">Soroush Khanlou</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="/js/script.min.js"></script>
+  </body>
+</html>
