@@ -7,7 +7,7 @@ permalink: /docs/instant-model/resource-gateway/
 
 Model objects live locally as well as remotely. Instant Cocoa has affordances for manipulating objects remotely.
 
-The REST-based resource model corresponds to the entity model quite well, so each `ICModel` instance has a **resource gateway**. This terminology is borrowed from Martin Fowler's Patterns of Enterprise Application Archicture.
+The REST-based resource model corresponds to the entity model quite well, so each `ICModel` instance has a **resource gateway**. This terminology is borrowed from [Martin Fowler's Patterns of Enterprise Application Archicture](http://martinfowler.com/books/eaa.html).
 
 Each class and instance has a resource gateway, represented by the class `ICResourceGateway`. Resource gateways are lazily loaded by ICModel, so to create one, just call `-resourceGateway`. You can then use it that gateway to perform REST "actions" on your remote objects. For example, if you had a user object, and you wanted to current user to follow them, you could invoke:
 
