@@ -6,6 +6,12 @@ var $win = $(window)
 $('a > code').parent().addClass('link-code');
 
 
+addAnchors('#doc h1, #doc h2, #doc h3, #doc h4');
+
+
+$body.smoothScroll();
+
+
 $navBtn.on('click', function(e) {
   e.stopPropagation();
 

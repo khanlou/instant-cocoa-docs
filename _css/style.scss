@@ -1,5 +1,6 @@
-@import //, 'vendor/**/*'
-        'vars'
+@import //'vendor/**/*'
+        'vendor/anchor'
+      , 'vars'
       , 'sass'
       , 'reset'
       , 'grid'
@@ -444,10 +445,14 @@ $btn-padding: 18px;
 
 //  =DOCS
 
+$anchor-icon-w: 24px;  // width of `h1` icon
+$anchor-icon-m: 6px;
+$anchor-icon-s: $anchor-icon-w + $anchor-icon-m;
+
 .nav {
   float: left;
   @include font-size($font-size);
-  margin: 50px $gutter * 2 0 0;
+  margin: 50px ($gutter * 2 - $anchor-icon-s) 0 0;
 
   a {
     color: inherit;
@@ -512,10 +517,20 @@ $btn-padding: 18px;
   }
 }
 
-.docs-article { overflow: hidden; }
+.docs-article {
+  overflow: hidden;
+  padding: 0 0 0 $anchor-icon-s;
+
+  @media (max-width: $mobile) { padding: 0; }
+}
 
 .article {
   %h { color: #57565a; }
+
+  h1,
+  h2,
+  h3,
+  h4 { position: relative; }
 
   h2 {
     @include font-size(24px);
@@ -567,3 +582,22 @@ $btn-padding: 18px;
 }
 
 .link-code { border: 0 !important; }
+
+.anchorjs-link {
+  border: 0 !important;
+  position: absolute;
+  right: 100%;
+  transition: all $duration $ease;
+
+  &:hover,
+  &:focus {
+    color: $pink;
+  }
+
+  @media (max-width: $mobile) { display: none; }
+}
+
+.anchorjs-icon {
+  font-size: 75%;
+  margin: 0 $anchor-icon-m 0 0;
+}
