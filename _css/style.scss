@@ -60,8 +60,18 @@ pre {
   }
 }
 
-a code {
-	color: $purple;
+a {
+  code {
+    color: $purple;
+    transition: border-color $duration $ease;
+  }
+
+  &:hover,
+  &:focus {
+    code {
+      border-color: $pink;
+    }
+  }
 }
 
 ::selection {
@@ -555,3 +565,5 @@ $btn-padding: 18px;
     }
   }
 }
+
+.link-code { border: 0 !important; }

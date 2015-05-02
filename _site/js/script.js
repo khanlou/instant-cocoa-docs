@@ -2,6 +2,10 @@ var $win = $(window)
   , $body = $('body')
   , $navBtn = $('#nav-btn');
 
+
+$('a > code').parent().addClass('link-code');
+
+
 $navBtn.on('click', function(e) {
   e.stopPropagation();
 
