@@ -12,8 +12,6 @@ destination: public
 permalink: /:title/
 markdown: kramdown
 
-docs: _docs
-
 collections:
   docs:
     output: true

@@ -2,27 +2,44 @@ module Jekyll
   class DocumentationGenerator < Generator
     safe true
     
+    attr_reader :site
+    
     def generate(site)
-      docs_collection = site.collections["docs"]
-      docs_dir = site.config['docs'] || './_docs'
-      output_dir = "docs"
-      all_raw_paths = Dir["#{docs_dir}/**/*"]      
+      @site = site
+      generate_documentation_documents
+    end
+    
+    def generate_documentation_documents
       all_raw_paths.each do |f|
-        full_path = File.join(site.source, '/', f)
-        if File.file?(full_path)
-          filepath = Filepath.new(f)
-          doc = DocumentationDocument.new(site, full_path, filepath, docs_collection)
-          doc.read
-          docs_collection.docs << doc
+        if File.file?(File.join(site.source, '/', f))
+          add_doc_at_path(f)
         end
       end
+    end
+    
+    def add_doc_at_path(filepath)
+      docs_collection.docs << DocumentationDocument.new(site, Filepath.new(filepath), docs_collection).tap do |doc|
+        doc.read
+      end
+    end
+    
+    def docs_dir
+      "_docs"
+    end
+    
+    def docs_collection
+      @docs_collection ||= site.collections["docs"]
+    end
+    
+    def all_raw_paths
+      Dir["#{docs_dir}/**/*"]
     end
   end
 
   class DocumentationDocument < Document
-    def initialize(site, full_path, filepath, collection)
+    def initialize(site, filepath, collection)
       @site = site
-      @path = full_path
+      @path = File.join(site.source, '/', filepath.filepath)
       @extname = File.extname(path)
       @collection = collection
       self.data['layout'] = 'doc'
