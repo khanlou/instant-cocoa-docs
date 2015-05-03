@@ -7,6 +7,8 @@ baseurl: ""
 site: http://khanlou.com
 repo: https://github.com/khanlou/instantcocoa/
 
+destination: public
+
 permalink: /:title/
 markdown: kramdown
 
