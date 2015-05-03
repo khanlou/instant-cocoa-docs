@@ -2,7 +2,7 @@ Some REST endpoints represent a collection of resources. Instant Cocoa has an af
 
 ## Configuration
 
-`ICCollectionFetcher` is designed to be configured and used.
+`ICCollectionFetcher` is designed to be simply configured and used.
 
 ### `mappingClass`
 
