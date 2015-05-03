@@ -18,7 +18,7 @@ module Jekyll
     end
     
     def add_doc_at_path(filepath)
-      docs_collection.docs << DocumentationDocument.new(site, Filepath.new(filepath), docs_collection).tap do |doc|
+      docs_collection.docs << DocumentationDocument.new(site, FileInfo.new(filepath), docs_collection).tap do |doc|
         doc.read
       end
     end
@@ -37,29 +37,31 @@ module Jekyll
   end
 
   class DocumentationDocument < Document
-    def initialize(site, filepath, collection)
+    def initialize(site, file_info, collection)
       @site = site
-      @path = File.join(site.source, '/', filepath.filepath)
+      @path = file_info.full_path_with_parent(site.source)
       @extname = File.extname(path)
       @collection = collection
       self.data['layout'] = 'doc'
-      self.data['permalink'] = filepath.permalink
-      self.data['title'] = filepath.title
-      unless filepath.is_index?
-        self.data['category'] = filepath.category
-      else 
+      self.data['permalink'] = file_info.permalink
+      self.data['title'] = file_info.title_for_display
+      unless file_info.is_index?
+        self.data['category'] = file_info.category
       end
     end
   end
   
-  class Filepath
+  class FileInfo
     def initialize(filepath)
       @filepath = filepath
     end
     
+    def full_path_with_parent(parent)
+      File.join(parent, '/', filepath)
+    end
+    
     def directory
-      dir_match = filepath.match(/(.*\/)[^\/]*$/)
-      return dir_match ? dir_match[1] : ''
+      File.dirname(filepath) + '/'
     end
     
     def filename
@@ -79,14 +81,15 @@ module Jekyll
     end
     
     def permalink
-      clean_dir = directory.sub("_docs", "docs")
       if is_index?
-        clean_dir
+        normalized_dir
       else
-        full_path = clean_dir + filename_sans_extension
-        full_path = full_path + "/" + "index.html"
-        full_path
+        normalized_dir + filename_sans_extension + "/"
       end
+    end
+    
+    def normalized_dir
+      directory.sub("_docs", "docs")
     end
     
     def name
@@ -94,20 +97,20 @@ module Jekyll
     end
     
     def is_index?
-      actual_title.downcase.include? "index"
+      title.downcase.include? "index"
     end
     
-    def title
+    def title_for_display
       if directory == "_docs/"
         return "Instant Cocoa"
       elsif is_index?
         category
       else
-        actual_title
+        title
       end
     end
     
-    def actual_title
+    def title
       name.split('-').map(&:capitalize).join(' ')
     end
         
