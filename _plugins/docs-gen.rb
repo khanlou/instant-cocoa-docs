@@ -28,7 +28,7 @@ module Jekyll
       self.data['layout'] = 'doc'
       self.data['permalink'] = filepath.permalink
       self.data['title'] = filepath.title
-      if filepath.title != 'Index'
+      unless filepath.is_index?
         self.data['category'] = filepath.category
       else 
       end
@@ -63,7 +63,7 @@ module Jekyll
     
     def permalink
       clean_dir = directory.sub("_docs", "docs")
-      if title == "Index"
+      if is_index?
         clean_dir
       else
         full_path = clean_dir + filename_sans_extension
@@ -76,7 +76,21 @@ module Jekyll
       filename_sans_extension
     end
     
+    def is_index?
+      actual_title.downcase.include? "index"
+    end
+    
     def title
+      if directory == "_docs/"
+        return "Instant Cocoa"
+      elsif is_index?
+        category
+      else
+        actual_title
+      end
+    end
+    
+    def actual_title
       name.split('-').map(&:capitalize).join(' ')
     end
         
