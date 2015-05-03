@@ -10,6 +10,8 @@ repo: https://github.com/khanlou/instantcocoa/
 permalink: /:title/
 markdown: kramdown
 
+docs: _docs
+
 collections:
   docs:
     output: true
