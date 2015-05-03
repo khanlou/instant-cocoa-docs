@@ -77,7 +77,7 @@ module Jekyll
     end
     
     def category
-      parts[1].split('-').map(&:capitalize).join(' ')
+      titlify(parts[1])
     end
     
     def permalink
@@ -111,11 +111,15 @@ module Jekyll
     end
     
     def title
-      name.split('-').map(&:capitalize).join(' ')
+      titlify(name)
     end
         
     def parts
       filepath.split('/')
+    end
+    
+    def titlify(string)
+      string.split('-').map(&:capitalize).join(' ')
     end
     
     attr_accessor :filepath  
